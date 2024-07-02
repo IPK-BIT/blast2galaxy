@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://example.com/cli/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>CLI Reference - blast2galaxy Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CLI Reference";
+        var mkdocs_page_input_path = "cli.md";
+        var mkdocs_page_url = "/cli/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> blast2galaxy Documentation
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../usage/">Usage</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">CLI Reference</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api/">API Reference</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">blast2galaxy Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">CLI Reference</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="cli-reference">CLI Reference</h1>
+<p>This page provides documentation for our command line tools.</p>
+<h1 id="blast2galaxy">blast2galaxy</h1>
+<p>Main entrypoint.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-text">blast2galaxy [OPTIONS] COMMAND [ARGS]...
+</code></pre>
+<p><strong>Options:</strong></p>
+<pre><code class="language-text">  --help  Show this message and exit.
+</code></pre>
+<h2 id="blastn">blastn</h2>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-text">blast2galaxy blastn [OPTIONS]
+</code></pre>
+<p><strong>Options:</strong></p>
+<pre><code class="language-text">  --query TEXT                    Path / filename of file with nucleotide
+                                  query sequence(s)  [required]
+  --task [megablast|blastn|blastn-short|dc-megablast]
+                                  Task type  [default: megablast]
+  --db TEXT                       Database name  [required]
+  --evalue TEXT                   Expectation value cutoff  [default: 0.001]
+  --out TEXT                      Path / filename of file to store the BLAST
+                                  result  [required]
+  --outfmt TEXT                   Output format  [default: tabular-std]
+  --html                          Format output as HTML document
+  --dust [yes|no]                 Filter out low complexity regions (with
+                                  DUST)  [default: yes]
+  --strand [both|plus|minus]      Query strand(s) to search against
+                                  database/subject  [default: both]
+  --max_hsps INTEGER              Maximum number of HSPs (alignments) to keep
+                                  for any single query-subject pair
+  --perc_identity FLOAT RANGE     Percent identity cutoff  [default: 0.0;
+                                  0.0&lt;=x&lt;=100.0]
+  --word_size INTEGER RANGE       Word size for wordfinder algorithm  [x&gt;=2]
+  --ungapped                      Perform ungapped alignment only?
+  --parse_deflines                Should the query and subject defline(s) be
+                                  parsed?
+  --qcov_hsp_perc FLOAT RANGE     Minimum query coverage per hsp (percentage,
+                                  0 to 100)  [default: 0.0; 0.0&lt;=x&lt;=100.0]
+  --window_size INTEGER RANGE     Multiple hits window size: use 0 to specify
+                                  1-hit algorithm, leave blank for default
+                                  [x&gt;=1]
+  --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
+  --help                          Show this message and exit.
+</code></pre>
+<h2 id="list-tools">list-tools</h2>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-text">blast2galaxy list-tools [OPTIONS]
+</code></pre>
+<p><strong>Options:</strong></p>
+<pre><code class="language-text">  --type [blastn|tblastn|blastp|blastx]
+                                  Type of BLAST search
+  --help                          Show this message and exit.
+</code></pre>
+<h2 id="show-config">show-config</h2>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-text">blast2galaxy show-config [OPTIONS]
+</code></pre>
+<p><strong>Options:</strong></p>
+<pre><code class="language-text">  --help  Show this message and exit.
+</code></pre>
+<h2 id="tblastn">tblastn</h2>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-text">blast2galaxy tblastn [OPTIONS]
+</code></pre>
+<p><strong>Options:</strong></p>
+<pre><code class="language-text">  --query TEXT                   Path / filename of file with nucleotide query
+                                 sequence(s)  [required]
+  --task [tblastn|tblastn-fast]  Task type  [default: tblastn]
+  --db TEXT                      Database name  [required]
+  --evalue TEXT                  Expectation value cutoff  [default: 0.001]
+  --out TEXT                     Path / filename of file to store the BLAST
+                                 result  [required]
+  --outfmt TEXT                  Output format  [default: tabular-std]
+  --html                         Format output as HTML document
+  --dust [yes|no]                Filter out low complexity regions (with DUST)
+                                 [default: yes]
+  --strand [both|plus|minus]     Query strand(s) to search against
+                                 database/subject  [default: both]
+  --max_hsps INTEGER             Maximum number of HSPs (alignments) to keep
+                                 for any single query-subject pair
+  --perc_identity FLOAT RANGE    Percent identity cutoff  [default: 0.0;
+                                 0.0&lt;=x&lt;=100.0]
+  --word_size INTEGER RANGE      Word size for wordfinder algorithm  [x&gt;=2]
+  --ungapped                     Perform ungapped alignment only?
+  --parse_deflines               Should the query and subject defline(s) be
+                                 parsed?
+  --qcov_hsp_perc FLOAT RANGE    Minimum query coverage per hsp (percentage, 0
+                                 to 100)  [default: 0.0; 0.0&lt;=x&lt;=100.0]
+  --window_size INTEGER RANGE    Multiple hits window size: use 0 to specify
+                                 1-hit algorithm, leave blank for default
+                                 [x&gt;=1]
+  --gapopen INTEGER RANGE        Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE      Cost to extend a gap  [x&gt;=0]
+  --help                         Show this message and exit.
+</code></pre>
+<h2 id="test-rich">test-rich</h2>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-text">blast2galaxy test-rich [OPTIONS]
+</code></pre>
+<p><strong>Options:</strong></p>
+<pre><code class="language-text">  --help  Show this message and exit.
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../usage/" class="btn btn-neutral float-left" title="Usage"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../api/" class="btn btn-neutral float-right" title="API Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../usage/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../api/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
