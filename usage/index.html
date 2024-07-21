@@ -50,6 +50,18 @@
               </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">Usage</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#using-the-cli">Using the CLI</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#list-available-tools-and-sequence-database-of-a-galaxy-server">List available tools and sequence database of a Galaxy server</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#perform-search-requests">Perform search requests</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-the-python-api">Using the Python API</a>
+    </li>
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -83,7 +95,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="usage">Usage</h1>
+<h2 id="using-the-cli">Using the CLI</h2>
+<p>After installation of blast2galaxy you can use the <code>blast2galaxy</code> CLI to perform BLAST and DIAMOND searches against the Galaxy servers you have configured
+in the <code>.blast2galaxy.config.toml</code> file</p>
+<p><code>blast2galaxy blastn --help</code></p>
+<p>You can find all possible subcommands and parameters in the <a href="../cli/">CLI reference</a>.</p>
+<h3 id="list-available-tools-and-sequence-database-of-a-galaxy-server">List available tools and sequence database of a Galaxy server</h3>
+<p>After configuration of at least one default server you can use the <code>list-tools</code> command of the CLI to get a table with all NCBI BLAST+ tools and DIAMOND available on that Galaxy server. The table also contains the Tool-IDs for configuration of the blast2galaxy profiles and also all available sequences databases corresponding to the specific tool.</p>
+<p>List all available tools of the default server: <code>blast2galaxy list-tools</code></p>
+<p>List all available tools of the server with ID <span style="font-family: monospace;">server_id</span>: <code>blast2galaxy list-tools --server=server_id</code></p>
+<h3 id="perform-search-requests">Perform search requests</h3>
+<div class="highlight"><pre><span></span><code>blast2galaxy blastn --profile=blastn --query=test.fasta --db=vertebrata_cds --out=blastn_vertebrata.txt --outfmt=6
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>blast2galaxy diamond-blastx --profile=diamond_blastp --query=test.fasta --db=Hordeum_vulgare__BPGv2__all_BPGv2:pep --out=result_diamond_blastx_vrs1_cds.txt --outfmt=6
+</code></pre></div>
+<h2 id="using-the-python-api">Using the Python API</h2>
+<p>After installation with <code>pip install blast2galaxy</code> the Python API can be imported to your Python application via <code>import blast2galaxy</code>.</p>
+<p>You can then perform BLAST or DIAMOND requests using the configured <code>default</code> profile like so:</p>
+<div class="highlight"><pre><span></span><code><span class="n">blast2galaxy</span><span class="o">.</span><span class="n">blastn</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;dna_sequence.fasta&#39;</span><span class="p">,</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;database_id&#39;</span><span class="p">,</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;result_blastn.txt&#39;</span><span class="p">,</span>
+    <span class="n">outfmt</span> <span class="o">=</span> <span class="s1">&#39;6&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>A specific profile can be used like so:</p>
+<div class="highlight"><pre><span></span><code><span class="n">blast2galaxy</span><span class="o">.</span><span class="n">blastp</span><span class="p">(</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;blastp&#39;</span><span class="p">,</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;protein_sequence.fasta&#39;</span><span class="p">,</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;database_id&#39;</span><span class="p">,</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;result_blastp.txt&#39;</span><span class="p">,</span>
+    <span class="n">outfmt</span> <span class="o">=</span> <span class="s1">&#39;6&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>If the profile has configured a database you can omit the <code>db</code> parameter of the function call:</p>
+<div class="highlight"><pre><span></span><code><span class="n">blast2galaxy</span><span class="o">.</span><span class="n">diamond_blastp</span><span class="p">(</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;diamond_blastp_plantae_genes&#39;</span><span class="p">,</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;protein_sequence.fasta&#39;</span><span class="p">,</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;result_diamond.txt&#39;</span><span class="p">,</span>
+    <span class="n">outfmt</span> <span class="o">=</span> <span class="s1">&#39;6&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>You can find all possible arguments and parameters in the <a href="../api/">API reference</a>.</p>
               
             </div>
           </div><footer>

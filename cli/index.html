@@ -90,17 +90,21 @@
 <h1 id="blast2galaxy">blast2galaxy</h1>
 <p>Main entrypoint.</p>
 <p><strong>Usage:</strong></p>
-<pre><code class="language-text">blast2galaxy [OPTIONS] COMMAND [ARGS]...
-</code></pre>
+<div class="highlight"><pre><span></span><code>blast2galaxy [OPTIONS] COMMAND [ARGS]...
+</code></pre></div>
 <p><strong>Options:</strong></p>
-<pre><code class="language-text">  --help  Show this message and exit.
-</code></pre>
+<div class="highlight"><pre><span></span><code>  --help  Show this message and exit.
+</code></pre></div>
 <h2 id="blastn">blastn</h2>
 <p><strong>Usage:</strong></p>
-<pre><code class="language-text">blast2galaxy blastn [OPTIONS]
-</code></pre>
+<div class="highlight"><pre><span></span><code>blast2galaxy blastn [OPTIONS]
+</code></pre></div>
 <p><strong>Options:</strong></p>
-<pre><code class="language-text">  --query TEXT                    Path / filename of file with nucleotide
+<div class="highlight"><pre><span></span><code>  --profile TEXT                  ID of the profile as defined in your config
+                                  TOML. The profile consists of Galaxy server
+                                  credentials and a Galaxy Tool-ID to be used
+                                  for your BLAST call  [default: default]
+  --query TEXT                    Path / filename of file with nucleotide
                                   query sequence(s)  [required]
   --task [megablast|blastn|blastn-short|dc-megablast]
                                   Task type  [default: megablast]
@@ -130,65 +134,320 @@
   --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
   --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
   --help                          Show this message and exit.
-</code></pre>
+</code></pre></div>
+<h2 id="blastp">blastp</h2>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>blast2galaxy blastp [OPTIONS]
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  --profile TEXT                  ID of the profile as defined in your config
+                                  TOML. The profile consists of Galaxy server
+                                  credentials and a Galaxy Tool-ID to be used
+                                  for your BLAST call  [default: default]
+  --query TEXT                    Path / filename of file with nucleotide
+                                  query sequence(s)  [required]
+  --task [blastp|blastp-short|blastp-fast]
+                                  Task type  [default: blastp]
+  --db TEXT                       Database name  [required]
+  --evalue TEXT                   Expectation value cutoff  [default: 0.001]
+  --out TEXT                      Path / filename of file to store the BLAST
+                                  result  [required]
+  --outfmt TEXT                   Output format  [default: tabular-std]
+  --html                          Format output as HTML document
+  --seg [yes|no]                  Filter out low complexity regions (with SEG)
+                                  [default: yes]
+  --matrix TEXT                   Scoring matrix name (normally BLOSUM62)
+  --max_target_seqs INTEGER RANGE
+                                  Maximum number of aligned sequences to keep
+                                  (value of 5 or more is recommended) Default
+                                  = 500  [default: 500; x&gt;=1]
+  --num_descriptions INTEGER RANGE
+                                  Number of database sequences to show one-
+                                  line descriptions for. Not applicable for
+                                  outfmt &gt; 4. Default = 500 * Incompatible
+                                  with:  max_target_seqs  [default: 500; x&gt;=0]
+  --num_alignments INTEGER RANGE  Number of database sequences to show
+                                  alignments for. Default = 250 * Incompatible
+                                  with:  max_target_seqs  [default: 250; x&gt;=0]
+  --threshold FLOAT RANGE         Minimum word score such that the word is
+                                  added to the BLAST lookup table  [x&gt;=0.0]
+  --max_hsps INTEGER              Maximum number of HSPs (alignments) to keep
+                                  for any single query-subject pair
+  --word_size INTEGER RANGE       Word size for wordfinder algorithm  [x&gt;=2]
+  --ungapped                      Perform ungapped alignment only?
+  --parse_deflines                Should the query and subject defline(s) be
+                                  parsed?
+  --qcov_hsp_perc FLOAT RANGE     Minimum query coverage per hsp (percentage,
+                                  0 to 100)  [default: 0.0; 0.0&lt;=x&lt;=100.0]
+  --window_size INTEGER RANGE     Multiple hits window size: use 0 to specify
+                                  1-hit algorithm, leave blank for default
+                                  [x&gt;=1]
+  --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
+  --comp_based_stats TEXT         Use composition-based statistics: D or d:
+                                  default (equivalent to 2 ); 0 or F or f: No
+                                  composition-based statistics; 1:
+                                  Composition-based statistics as in NAR
+                                  29:2994-3005, 2001; 2 or T or t :
+                                  Composition-based score adjustment as in
+                                  Bioinformatics 21:902-911, 2005, conditioned
+                                  on sequence properties; 3: Composition-based
+                                  score adjustment as in Bioinformatics
+                                  21:902-911, 2005, unconditionally  [default:
+                                  2]
+  --use_sw_tback                  Compute locally optimal Smith-Waterman
+                                  alignments?
+  --help                          Show this message and exit.
+</code></pre></div>
+<h2 id="blastx">blastx</h2>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>blast2galaxy blastx [OPTIONS]
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  --profile TEXT                  ID of the profile as defined in your config
+                                  TOML. The profile consists of Galaxy server
+                                  credentials and a Galaxy Tool-ID to be used
+                                  for your BLAST call  [default: default]
+  --query TEXT                    Path / filename of file with nucleotide
+                                  query sequence(s)  [required]
+  --task [blastx|blastx-fast]     Task type  [default: blastx]
+  --db TEXT                       Database name  [required]
+  --evalue TEXT                   Expectation value cutoff  [default: 0.001]
+  --out TEXT                      Path / filename of file to store the BLAST
+                                  result  [required]
+  --outfmt TEXT                   Output format  [default: tabular-std]
+  --html                          Format output as HTML document
+  --seg [yes|no]                  Filter out low complexity regions (with SEG)
+                                  [default: yes]
+  --matrix TEXT                   Scoring matrix name (normally BLOSUM62)
+  --max_target_seqs INTEGER RANGE
+                                  Maximum number of aligned sequences to keep
+                                  (value of 5 or more is recommended) Default
+                                  = 500  [default: 500; x&gt;=1]
+  --num_descriptions INTEGER RANGE
+                                  Number of database sequences to show one-
+                                  line descriptions for. Not applicable for
+                                  outfmt &gt; 4. Default = 500 * Incompatible
+                                  with:  max_target_seqs  [default: 500; x&gt;=0]
+  --num_alignments INTEGER RANGE  Number of database sequences to show
+                                  alignments for. Default = 250 * Incompatible
+                                  with:  max_target_seqs  [default: 250; x&gt;=0]
+  --threshold FLOAT RANGE         Minimum word score such that the word is
+                                  added to the BLAST lookup table  [x&gt;=0.0]
+  --max_hsps INTEGER              Maximum number of HSPs (alignments) to keep
+                                  for any single query-subject pair
+  --word_size INTEGER RANGE       Word size for wordfinder algorithm  [x&gt;=2]
+  --ungapped                      Perform ungapped alignment only?
+  --parse_deflines                Should the query and subject defline(s) be
+                                  parsed?
+  --qcov_hsp_perc FLOAT RANGE     Minimum query coverage per hsp (percentage,
+                                  0 to 100)  [default: 0.0; 0.0&lt;=x&lt;=100.0]
+  --window_size INTEGER RANGE     Multiple hits window size: use 0 to specify
+                                  1-hit algorithm, leave blank for default
+                                  [x&gt;=1]
+  --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
+  --comp_based_stats TEXT         Use composition-based statistics: D or d:
+                                  default (equivalent to 2 ); 0 or F or f: No
+                                  composition-based statistics; 1:
+                                  Composition-based statistics as in NAR
+                                  29:2994-3005, 2001; 2 or T or t :
+                                  Composition-based score adjustment as in
+                                  Bioinformatics 21:902-911, 2005, conditioned
+                                  on sequence properties; 3: Composition-based
+                                  score adjustment as in Bioinformatics
+                                  21:902-911, 2005, unconditionally  [default:
+                                  2]
+  --help                          Show this message and exit.
+</code></pre></div>
+<h2 id="diamond-blastp">diamond-blastp</h2>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>blast2galaxy diamond-blastp [OPTIONS]
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  --profile TEXT                  ID of the profile as defined in your config
+                                  TOML. The profile consists of Galaxy server
+                                  credentials and a Galaxy Tool-ID to be used
+                                  for your BLAST call  [default: default]
+  --query TEXT                    Path / filename of file with nucleotide
+                                  query sequence(s)  [required]
+  --task [blastp|blastp-short|blastp-fast]
+                                  Task type  [default: blastp]
+  --db TEXT                       Database name  [required]
+  --evalue TEXT                   Expectation value cutoff  [default: 0.001]
+  --out TEXT                      Path / filename of file to store the BLAST
+                                  result  [required]
+  --outfmt TEXT                   Output format  [default: 0]
+  --faster
+  --fast
+  --mid-sensitive
+  --sensitive
+  --more-sensitive
+  --very-sensitive
+  --ultra-sensitive
+  --strand [both|plus|minus]      Query strand(s) to search against
+                                  database/subject  [default: both]
+  --matrix TEXT                   Scoring matrix name (normally BLOSUM62)
+                                  [default: BLOSUM62]
+  --max-target-seqs INTEGER RANGE
+                                  Maximum number of aligned sequences to keep
+                                  (value of 5 or more is recommended) Default
+                                  = 500  [default: 500; x&gt;=1]
+  --max-hsps INTEGER              Maximum number of HSPs (alignments) to keep
+                                  for any single query-subject pair
+  --window INTEGER RANGE          Multiple hits window size: use 0 to specify
+                                  1-hit algorithm, leave blank for default
+                                  [x&gt;=1]
+  --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
+  --comp-based-stats TEXT         Use composition-based statistics: D or d:
+                                  default (equivalent to 2 ); 0 or F or f: No
+                                  composition-based statistics; 1:
+                                  Composition-based statistics as in NAR
+                                  29:2994-3005, 2001; 2 or T or t :
+                                  Composition-based score adjustment as in
+                                  Bioinformatics 21:902-911, 2005, conditioned
+                                  on sequence properties; 3: Composition-based
+                                  score adjustment as in Bioinformatics
+                                  21:902-911, 2005, unconditionally  [default:
+                                  1]
+  --help                          Show this message and exit.
+</code></pre></div>
+<h2 id="diamond-blastx">diamond-blastx</h2>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>blast2galaxy diamond-blastx [OPTIONS]
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  --profile TEXT                  ID of the profile as defined in your config
+                                  TOML. The profile consists of Galaxy server
+                                  credentials and a Galaxy Tool-ID to be used
+                                  for your BLAST call  [default: default]
+  --query TEXT                    Path / filename of file with nucleotide
+                                  query sequence(s)  [required]
+  --task [blastp|blastp-short|blastp-fast]
+                                  Task type  [default: blastp]
+  --db TEXT                       Database name  [required]
+  --evalue TEXT                   Expectation value cutoff  [default: 0.001]
+  --out TEXT                      Path / filename of file to store the BLAST
+                                  result  [required]
+  --outfmt TEXT                   Output format  [default: 0]
+  --faster
+  --fast
+  --mid-sensitive
+  --sensitive
+  --more-sensitive
+  --very-sensitive
+  --ultra-sensitive
+  --strand [both|plus|minus]      Query strand(s) to search against
+                                  database/subject  [default: both]
+  --matrix TEXT                   Scoring matrix name (normally BLOSUM62)
+                                  [default: BLOSUM62]
+  --max-target-seqs INTEGER RANGE
+                                  Maximum number of aligned sequences to keep
+                                  (value of 5 or more is recommended) Default
+                                  = 500  [default: 500; x&gt;=1]
+  --max-hsps INTEGER              Maximum number of HSPs (alignments) to keep
+                                  for any single query-subject pair
+  --window INTEGER RANGE          Multiple hits window size: use 0 to specify
+                                  1-hit algorithm, leave blank for default
+                                  [x&gt;=1]
+  --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
+  --comp-based-stats TEXT         Use composition-based statistics: D or d:
+                                  default (equivalent to 2 ); 0 or F or f: No
+                                  composition-based statistics; 1:
+                                  Composition-based statistics as in NAR
+                                  29:2994-3005, 2001; 2 or T or t :
+                                  Composition-based score adjustment as in
+                                  Bioinformatics 21:902-911, 2005, conditioned
+                                  on sequence properties; 3: Composition-based
+                                  score adjustment as in Bioinformatics
+                                  21:902-911, 2005, unconditionally  [default:
+                                  1]
+  --help                          Show this message and exit.
+</code></pre></div>
 <h2 id="list-tools">list-tools</h2>
 <p><strong>Usage:</strong></p>
-<pre><code class="language-text">blast2galaxy list-tools [OPTIONS]
-</code></pre>
+<div class="highlight"><pre><span></span><code>blast2galaxy list-tools [OPTIONS]
+</code></pre></div>
 <p><strong>Options:</strong></p>
-<pre><code class="language-text">  --type [blastn|tblastn|blastp|blastx]
+<div class="highlight"><pre><span></span><code>  --server TEXT                   Server-ID as in your config TOML  [default:
+                                  default]
+  --type [blastn|tblastn|blastp|blastx|diamond]
                                   Type of BLAST search
   --help                          Show this message and exit.
-</code></pre>
+</code></pre></div>
 <h2 id="show-config">show-config</h2>
 <p><strong>Usage:</strong></p>
-<pre><code class="language-text">blast2galaxy show-config [OPTIONS]
-</code></pre>
+<div class="highlight"><pre><span></span><code>blast2galaxy show-config [OPTIONS]
+</code></pre></div>
 <p><strong>Options:</strong></p>
-<pre><code class="language-text">  --help  Show this message and exit.
-</code></pre>
+<div class="highlight"><pre><span></span><code>  --help  Show this message and exit.
+</code></pre></div>
 <h2 id="tblastn">tblastn</h2>
 <p><strong>Usage:</strong></p>
-<pre><code class="language-text">blast2galaxy tblastn [OPTIONS]
-</code></pre>
+<div class="highlight"><pre><span></span><code>blast2galaxy tblastn [OPTIONS]
+</code></pre></div>
 <p><strong>Options:</strong></p>
-<pre><code class="language-text">  --query TEXT                   Path / filename of file with nucleotide query
-                                 sequence(s)  [required]
-  --task [tblastn|tblastn-fast]  Task type  [default: tblastn]
-  --db TEXT                      Database name  [required]
-  --evalue TEXT                  Expectation value cutoff  [default: 0.001]
-  --out TEXT                     Path / filename of file to store the BLAST
-                                 result  [required]
-  --outfmt TEXT                  Output format  [default: tabular-std]
-  --html                         Format output as HTML document
-  --dust [yes|no]                Filter out low complexity regions (with DUST)
-                                 [default: yes]
-  --strand [both|plus|minus]     Query strand(s) to search against
-                                 database/subject  [default: both]
-  --max_hsps INTEGER             Maximum number of HSPs (alignments) to keep
-                                 for any single query-subject pair
-  --perc_identity FLOAT RANGE    Percent identity cutoff  [default: 0.0;
-                                 0.0&lt;=x&lt;=100.0]
-  --word_size INTEGER RANGE      Word size for wordfinder algorithm  [x&gt;=2]
-  --ungapped                     Perform ungapped alignment only?
-  --parse_deflines               Should the query and subject defline(s) be
-                                 parsed?
-  --qcov_hsp_perc FLOAT RANGE    Minimum query coverage per hsp (percentage, 0
-                                 to 100)  [default: 0.0; 0.0&lt;=x&lt;=100.0]
-  --window_size INTEGER RANGE    Multiple hits window size: use 0 to specify
-                                 1-hit algorithm, leave blank for default
-                                 [x&gt;=1]
-  --gapopen INTEGER RANGE        Cost to open a gap  [x&gt;=0]
-  --gapextend INTEGER RANGE      Cost to extend a gap  [x&gt;=0]
-  --help                         Show this message and exit.
-</code></pre>
-<h2 id="test-rich">test-rich</h2>
-<p><strong>Usage:</strong></p>
-<pre><code class="language-text">blast2galaxy test-rich [OPTIONS]
-</code></pre>
-<p><strong>Options:</strong></p>
-<pre><code class="language-text">  --help  Show this message and exit.
-</code></pre>
+<div class="highlight"><pre><span></span><code>  --profile TEXT                  ID of the profile as defined in your config
+                                  TOML. The profile consists of Galaxy server
+                                  credentials and a Galaxy Tool-ID to be used
+                                  for your BLAST call  [default: default]
+  --query TEXT                    Path / filename of file with nucleotide
+                                  query sequence(s)  [required]
+  --task [tblastn|tblastn-fast]   Task type  [default: tblastn]
+  --db TEXT                       Database name  [required]
+  --evalue TEXT                   Expectation value cutoff  [default: 0.001]
+  --out TEXT                      Path / filename of file to store the BLAST
+                                  result  [required]
+  --outfmt TEXT                   Output format  [default: tabular-std]
+  --html                          Format output as HTML document
+  --seg [yes|no]                  Filter out low complexity regions (with SEG)
+                                  [default: yes]
+  --db_gencode INTEGER            Genetic code to use to translate
+                                  database/subjects (see user manual for
+                                  details)  [default: 1]
+  --matrix TEXT                   Scoring matrix name (normally BLOSUM62)
+  --max_target_seqs INTEGER RANGE
+                                  Maximum number of aligned sequences to keep
+                                  (value of 5 or more is recommended) Default
+                                  = 500  [default: 500; x&gt;=1]
+  --num_descriptions INTEGER RANGE
+                                  Number of database sequences to show one-
+                                  line descriptions for. Not applicable for
+                                  outfmt &gt; 4. Default = 500 * Incompatible
+                                  with:  max_target_seqs  [default: 500; x&gt;=0]
+  --num_alignments INTEGER RANGE  Number of database sequences to show
+                                  alignments for. Default = 250 * Incompatible
+                                  with:  max_target_seqs  [default: 250; x&gt;=0]
+  --threshold FLOAT RANGE         Minimum word score such that the word is
+                                  added to the BLAST lookup table  [x&gt;=0.0]
+  --max_hsps INTEGER              Maximum number of HSPs (alignments) to keep
+                                  for any single query-subject pair
+  --word_size INTEGER RANGE       Word size for wordfinder algorithm  [x&gt;=2]
+  --ungapped                      Perform ungapped alignment only?
+  --parse_deflines                Should the query and subject defline(s) be
+                                  parsed?
+  --qcov_hsp_perc FLOAT RANGE     Minimum query coverage per hsp (percentage,
+                                  0 to 100)  [default: 0.0; 0.0&lt;=x&lt;=100.0]
+  --window_size INTEGER RANGE     Multiple hits window size: use 0 to specify
+                                  1-hit algorithm, leave blank for default
+                                  [x&gt;=1]
+  --gapopen INTEGER RANGE         Cost to open a gap  [x&gt;=0]
+  --gapextend INTEGER RANGE       Cost to extend a gap  [x&gt;=0]
+  --comp_based_stats TEXT         Use composition-based statistics: D or d:
+                                  default (equivalent to 2 ); 0 or F or f: No
+                                  composition-based statistics; 1:
+                                  Composition-based statistics as in NAR
+                                  29:2994-3005, 2001; 2 or T or t :
+                                  Composition-based score adjustment as in
+                                  Bioinformatics 21:902-911, 2005, conditioned
+                                  on sequence properties; 3: Composition-based
+                                  score adjustment as in Bioinformatics
+                                  21:902-911, 2005, unconditionally  [default:
+                                  2]
+  --help                          Show this message and exit.
+</code></pre></div>
               
             </div>
           </div><footer>

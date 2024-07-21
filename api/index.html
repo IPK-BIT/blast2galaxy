@@ -59,9 +59,11 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">API Reference</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#blast2galaxy.api.blastn">blastn</a>
+    <li class="toctree-l2"><a class="reference internal" href="#blast2galaxy.api.blast_request">blast_request</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#blast2galaxy.api.blastn.blastn">blastn</a>
+    <li class="toctree-l2"><a class="reference internal" href="#blast2galaxy.api.blast_request.__blastn">__blastn</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#blast2galaxy.api.blast_request.blastn_test">blastn_test</a>
     </li>
     </ul>
                 </li>
@@ -97,7 +99,7 @@
 
 
 
-<a id="blast2galaxy.api.blastn"></a>
+<a id="blast2galaxy.api.blast_request"></a>
     <div class="doc doc-contents first">
 
 
@@ -115,12 +117,12 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="blast2galaxy.api.blastn.blastn" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">blastn</span>
+<h2 id="blast2galaxy.api.blast_request.__blastn" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">__blastn</span>
 
 
 </h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">blastn</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">ChoicesTaskBlastn</span><span class="o">.</span><span class="n">megablast</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">evalue</span><span class="o">=</span><span class="s1">&#39;0.001&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">outfmt</span><span class="o">=</span><span class="n">ChoicesOutfmt</span><span class="o">.</span><span class="n">tab_std</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dust</span><span class="o">=</span><span class="n">ChoicesYesNo</span><span class="o">.</span><span class="n">yes</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">strand</span><span class="o">=</span><span class="n">ChoicesStrand</span><span class="o">.</span><span class="n">both</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">max_hsps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perc_identity</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">word_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ungapped</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parse_deflines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">qcov_hsp_perc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gapopen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gapextend</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">__blastn</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">ChoicesTaskBlastn</span><span class="o">.</span><span class="n">megablast</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">evalue</span><span class="o">=</span><span class="s1">&#39;0.001&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">outfmt</span><span class="o">=</span><span class="n">ChoicesOutfmt</span><span class="o">.</span><span class="n">tab_std</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dust</span><span class="o">=</span><span class="n">ChoicesYesNo</span><span class="o">.</span><span class="n">yes</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">strand</span><span class="o">=</span><span class="n">ChoicesStrand</span><span class="o">.</span><span class="n">both</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">max_hsps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perc_identity</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">word_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ungapped</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parse_deflines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">qcov_hsp_perc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gapopen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gapextend</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -161,6 +163,71 @@
             <li>
               <b><code>db</code></b>
                   (<code><span title="typing.Optional">Optional</span>[str]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>the BLAST database to search in</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="blast2galaxy.api.blast_request.blastn_test" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">blastn_test</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">blastn_test</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">ChoicesTaskBlastn</span><span class="o">.</span><span class="n">megablast</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">evalue</span><span class="o">=</span><span class="s1">&#39;0.001&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">outfmt</span><span class="o">=</span><span class="n">ChoicesOutfmt</span><span class="o">.</span><span class="n">tab_std</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dust</span><span class="o">=</span><span class="n">ChoicesYesNo</span><span class="o">.</span><span class="n">yes</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">strand</span><span class="o">=</span><span class="n">ChoicesStrand</span><span class="o">.</span><span class="n">both</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">max_hsps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perc_identity</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">word_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ungapped</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parse_deflines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">qcov_hsp_perc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gapopen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gapextend</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>blastn for searching nucleotide query sequence in a nucleotides BLAST database</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>query</code></b>
+                  (<code>str</code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>file path with your query sequence</p>
+              </div>
+            </li>
+            <li>
+              <b><code>task</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="blast2galaxy.api.choices.ChoicesTaskBlastn">ChoicesTaskBlastn</span>]</code>, default:
+                      <code><span title="blast2galaxy.api.choices.ChoicesTaskBlastn.megablast">megablast</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>the blastn task: megablast or something</p>
+              </div>
+            </li>
+            <li>
+              <b><code>db</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[str | None]</code>, default:
                       <code>None</code>
 )
               –
