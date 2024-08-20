@@ -1,0 +1,29 @@
+site_name: blast2galaxy Documentation
+
+site_url: https://example.com/
+
+repo_url: https://github.com/IPK-BIT/blast2galaxy
+edit_uri: edit/main/docs/
+
+nav:
+  - Introduction: index.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Usage: usage.md
+  - CLI Reference: cli.md
+  - API Reference: api.md
+
+theme: 
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - mkdocstrings
+
+
+markdown_extensions:
+  - mkdocs-click
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences

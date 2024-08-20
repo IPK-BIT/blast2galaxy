@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "blast2galaxy"
+version = "0.1.0"
+keywords = ["bioinformatics", "blast", "sequence alignment"]
+description = ""
+authors = ["Patrick König <koenig@ipk-gatersleben.de>"]
+readme = "README.md"
+license = "MIT"
+packages = [{include = "blast2galaxy", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = "^0.9.0"
+bioblend = "^1.2.0"
+rich = "^13.6.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocs-click = "^0.8.1"
+mkdocstrings = "^0.25.1"
+mkdocstrings-python = "^1.10.5"
+mkdocs-material = "^9.5.31"
+
+[tool.poetry.scripts]
+blast2galaxy = "blast2galaxy.cli:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

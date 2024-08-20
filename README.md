@@ -1,2 +1,14 @@
 # blast2galaxy
-A Python package with a CLI and API to perform BLAST queries against Galaxy servers
+
+## About
+blast2galaxy is a Python package that provides a NCBI BLAST like CLI to perform BLAST searches against BLAST databases installed on Galaxy servers.
+
+## Installation
+
+```
+pip install blast2galaxy
+```
+
+## Documentation
+
+tbd
