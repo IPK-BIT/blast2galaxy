@@ -1,61 +1,45 @@
-import os
 from pathlib import Path
-import tomllib
-import yaml
-import json
+
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
 
 from bioblend.galaxy import GalaxyInstance
 
-def get_credentials():
-    
-    # Check for the environment variable
-    server_url = os.getenv('GALAXY_SERVER_URL')
-    api_key = os.getenv('GALAXY_API_KEY')
-    
-    if api_key:
-        print("API key obtained from environment variable.")
-        return api_key
-    
-    # If the environment variable is not set, check for the YAML file
-    home_directory = os.path.expanduser('~')
-    yaml_file_path = os.path.join(home_directory, 'blast2galaxy.config.yaml')
-    
-    if os.path.isfile(yaml_file_path):
-        with open(yaml_file_path, 'r') as file:
-            config = yaml.safe_load(file)
-            if 'api_key' in config:
-                print("API key obtained from YAML file.")
-                return config['api_key']
-            else:
-                raise ValueError("API key not found in the YAML file.")
-    else:
-        raise FileNotFoundError("YAML configuration file not found.")
-    
-    # If neither is found, raise an exception
-    raise EnvironmentError("API key not found in environment variable or YAML file.")
+
+class ConfigHolder:
+    def __init__(self):
+        self.config = None
 
 
-def get_user_home_dir():
-    home_dir = str(Path.home())
-    return home_dir
+conf = ConfigHolder()
 
+def get_conf():
+    return conf.config
 
-def get_config_toml_path():
-    home_dir = get_user_home_dir()
-    path_config = os.path.join(home_dir, '.blast2galaxy.toml')
-    return path_config
+def set_config(config):
+    global conf
+    conf.config = config
+    print('Set conf to: ', conf.config)
 
 
 def load_config_toml():
-    path_config = get_config_toml_path()
+    config_path_cwd = Path.cwd().joinpath('.blast2galaxy.toml')
+    config_path_home_dir = Path.home().joinpath('.blast2galaxy.toml')
 
     try:
-        with open(path_config, 'rb') as f:
+        with open(config_path_cwd, 'rb') as f:
             config = tomllib.load(f)
             return config
     except FileNotFoundError as e:
-        err_msg = 'Could not find the config file  .blast2galaxy.toml  in your home directory: ' + str(get_user_home_dir())
-        raise Exception(err_msg) from e
+        try:
+            with open(config_path_home_dir, 'rb') as f:
+                config = tomllib.load(f)
+                return config
+        except FileNotFoundError as e:
+            err_msg = 'Could not find the config file  `.blast2galaxy.toml`  in the current working directory or in your home directory: ' + str(Path.home())
+            raise Exception(err_msg) from e
 
 
 def get_profile(server='default', profile=None):

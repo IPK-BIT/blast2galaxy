@@ -1,6 +1,6 @@
 # Welcome to blast2galaxy
 
-blast2galaxy provides a Python API and CLI to perform BLAST and DIAMOND queries against Galaxy servers that have the NCBI BLAST+ tools [[1]](#1 and DIAMOND installed.
+blast2galaxy provides a Python API and CLI to perform BLAST and DIAMOND queries against Galaxy servers that have the NCBI BLAST+ tools [[1]](#1) and DIAMOND [[2]](#2) installed.
 
 
 ![Screenshot](figure_1_v3.png)
@@ -14,3 +14,5 @@ or read the [API Reference](api.md) if you want to use blast2galaxy inside a Pyt
 <h2>References</h2>
 
 <a id="1">[1]</a> Peter J. A. Cock, John M. Chilton, Björn Grüning, James E. Johnson, Nicola Soranzo, NCBI BLAST+ integrated into Galaxy, GigaScience, Volume 4, Issue 1, December 2015, s13742-015-0080-7, [https://doi.org/10.1186/s13742-015-0080-7](https://doi.org/10.1186/s13742-015-0080-7)
+
+<a id="2">[2]</a> Buchfink, B., Reuter, K. & Drost, HG. Sensitive protein alignments at tree-of-life scale using DIAMOND. Nat Methods 18, 366–368 (2021). [https://doi.org/10.1038/s41592-021-01101-x](https://doi.org/10.1038/s41592-021-01101-x)
