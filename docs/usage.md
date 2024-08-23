@@ -5,7 +5,7 @@
 After installation of blast2galaxy you can use the `blast2galaxy` CLI to perform BLAST and DIAMOND searches against the Galaxy servers you have configured
 in the `.blast2galaxy.config.toml` file
 
-`blast2galaxy blastn --help`
+<!--`blast2galaxy blastn --help`-->
 
 You can find all possible subcommands and parameters in the [CLI reference](cli.md).
 
@@ -13,13 +13,36 @@ You can find all possible subcommands and parameters in the [CLI reference](cli.
 
 
 
-### List available tools and sequence database of a Galaxy server
+### List available and compatible BLAST+ and DIAMOND tools of a Galaxy server
 
-After configuration of at least one default server you can use the `list-tools` command of the CLI to get a table with all NCBI BLAST+ tools and DIAMOND available on that Galaxy server. The table also contains the Tool-IDs for configuration of the blast2galaxy profiles and also all available sequences databases corresponding to the specific tool.
+After configuration of at least one default server you can use the `list-tools` command of the CLI to get a table with all NCBI BLAST+ tools and DIAMOND available on that Galaxy server. The table also contains the Tool-IDs for configuration of the blast2galaxy profiles.
 
-List all available tools of the default server: `blast2galaxy list-tools`
+List all available tools of the default server: 
+```shell
+blast2galaxy list-tools
+```
 
-List all available tools of the server with ID <span style="font-family: monospace;">server_id</span>: `blast2galaxy list-tools --server=server_id`
+List all available tools of the server with the ID `SERVER_ID`:
+```
+blast2galaxy list-tools --server=SERVER_ID
+```
+
+
+### List available tools and sequence databases of a Galaxy server
+
+After configuration of at least one default profile you can use the `list-dbs` command of the CLI to get a table with all available sequence databases for a specific tool.
+
+List all available databases of the tool with ID `TOOL_ID` on the default server:
+```bash
+blast2galaxy list-tools --tool=TOOL_ID
+```
+
+If you have configured multiple servers in the config file `.blast2galaxy.toml`, you can also obtain the available databases for a tool on a specific server other than the default server.
+
+List all available databases of the tool with ID `TOOL_ID` on the server with ID `SERVER_ID`:
+```bash
+blast2galaxy list-tools --server=SERVER_ID --tool=TOOL_ID
+```
 
 
 ### Perform search requests

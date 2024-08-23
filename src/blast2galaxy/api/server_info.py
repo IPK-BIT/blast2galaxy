@@ -8,7 +8,7 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
     gi = config.get_galaxy_instance(server=server)
 
     blast_tool_ids = []
-    blast_tools_databases = []
+    #blast_tools_databases = []
     blast_tools_databases_dict = {}
 
     tool_id_pattern_to_tool_type = {
@@ -17,6 +17,14 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
         'ncbi_blastx_wrapper': 'blastx',
         'ncbi_blastp_wrapper': 'blastp',
         'bg_diamond/': 'diamond'
+    }
+
+    compatible_versions = {
+        'blastn': ['2.10.1+galaxy0', '2.14.1+galaxy0', '2.14.1+galaxy1'],
+        'tblastn': ['2.10.1+galaxy0', '2.14.1+galaxy0', '2.14.1+galaxy1'],
+        'blastx': ['2.10.1+galaxy0', '2.14.1+galaxy0', '2.14.1+galaxy1'],
+        'blastp': ['2.10.1+galaxy0', '2.14.1+galaxy0', '2.14.1+galaxy1'],
+        'diamond': ['2.0.15+galaxy0']
     }
 
     tool_name_by_tool_id = {}
@@ -32,30 +40,34 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
         blast_tool_ids_to_match = tool_id_pattern_to_tool_type.keys()
 
     tools = gi.tools.get_tools()
+
     for tool in tools:
         matches = [x in tool['id'] for x in blast_tool_ids_to_match]
         if any(matches):
-            blast_tool_ids.append(tool['id'])
             which_tool = list(compress(blast_tool_ids_to_match, matches))[0]
-            tool_name_by_tool_id[tool['id']] = tool_id_pattern_to_tool_type[which_tool]
+            tool_name = tool_id_pattern_to_tool_type[which_tool]
+            tool_name_by_tool_id[tool['id']] = tool_name
+
+            if tool['version'] in compatible_versions[tool_name]:
+                blast_tool_ids.append(tool['id'])
+
+            #if tool['id'] == 'ncbi_tblastn_wrapper_faba':
+            #    print(json.dumps(tool, indent=2))
 
     for blast_tool_id in blast_tool_ids:
-        blast_tool_io_details = gi.tools.show_tool(blast_tool_id, io_details=True)
+        blast_tool_details = gi.tools.show_tool(blast_tool_id, io_details=True)
         blast_tool_databases = {}
-        blast_tool_types = {}
 
-        for _input in blast_tool_io_details['inputs']:
+        #if blast_tool_id == 'ncbi_tblastn_wrapper_faba':
+        #    print(json.dumps(blast_tool_details, indent=2))
 
-            if _input['name'] == 'blast_type':
-                for _option in _input['options']:
-                    blast_tool_types[_option[1]] = _option[0]
+        for _input in blast_tool_details['inputs']:
 
             # NCBI BLAST+
             if _input['name'] == 'db_opts':
                 for _case in _input['cases']:
                     if _case['value'] == 'db':
                         for __input in _case['inputs']:
-                            #print(__input)
                             if __input['name'] == 'database':
                                 for _database in __input['options']:
                                     blast_tool_databases[_database[1]] = _database[0]
@@ -65,17 +77,15 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
                 for _case in _input['cases']:
                     if _case['value'] == 'indexed':
                         for __input in _case['inputs']:
-                            #print(__input)
                             if __input['name'] == 'index':
                                 for _database in __input['options']:
                                     blast_tool_databases[_database[1]] = _database[0]
         
-        blast_tool_entry = {'blast_tool_id': blast_tool_id, 'available_databases': blast_tool_databases, 'available_blast_types': blast_tool_types}
-        blast_tools_databases.append(blast_tool_entry)
+
         blast_tools_databases_dict[blast_tool_id] = {
             'tool_name': tool_name_by_tool_id[blast_tool_id],
-            'available_databases': blast_tool_databases.keys(),
-            'available_blast_types': blast_tool_types.keys()
+            'version': blast_tool_details['version'],
+            'available_databases': blast_tool_databases
         }
 
-    return blast_tool_ids, blast_tools_databases, blast_tools_databases_dict
+    return blast_tools_databases_dict

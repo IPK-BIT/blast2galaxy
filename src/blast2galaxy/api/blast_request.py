@@ -335,7 +335,7 @@ def request(params):
     tool_inputs_dict = tool_inputs.to_dict()
     print('='*150)
     print(json.dumps(tool_inputs_dict, indent=4))
-    print('+ tool_id = ', profile['tool_id'])
+    print('+ tool_id = ', profile['tool'])
     print('+ history_id = ', history_id)
     print('='*150)
 
@@ -344,7 +344,7 @@ def request(params):
 
     run_tool_result = gi.tools.run_tool(
         history_id = history_id,
-        tool_id = str(profile['tool_id']),
+        tool_id = str(profile['tool']),
         tool_inputs = tool_inputs
     )
 

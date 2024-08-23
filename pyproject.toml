@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blast2galaxy"
-version = "0.1.0"
+version = "0.1.0a1"
 keywords = ["bioinformatics", "blast", "sequence alignment"]
 description = ""
 authors = ["Patrick König <koenig@ipk-gatersleben.de>"]
@@ -34,3 +34,38 @@ blast2galaxy = "blast2galaxy.cli:cli"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "blast2galaxy"
+description = "A Python package with a CLI and API to perform BLAST queries against Galaxy servers"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    {name = "Patrick König"},
+]
+maintainers = [
+    {name = "Patrick König", email = "koenig@ipk-gatersleben.de"},
+]
+readme = "README.md"
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.urls]
+Documentation = "https://ipk-bit.github.io/blast2galaxy/"
+Source = "https://github.com/IPK-BIT/blast2galaxy/"
+Homepage = "https://github.com/IPK-BIT/blast2galaxy/"

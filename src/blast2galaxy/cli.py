@@ -2,6 +2,10 @@ import click
 from typing import Optional
 from typing_extensions import Annotated
 
+from rich.console import Console
+from rich.table import Table
+from rich import box
+
 from .api import blast_request as api
 
 from .api.choices import ChoicesBlastType, ChoicesTaskBlastn, ChoicesTaskTblastn, ChoicesTaskBlastp, ChoicesTaskBlastx, ChoicesOutfmt, ChoicesOutfmtDiamond, ChoicesYesNo, ChoicesStrand
@@ -15,15 +19,7 @@ from .utils import get_value
 
 @click.group(name='blast2galaxy')
 def cli():
-    """Main entrypoint."""
-
-
-
-
-#@cli.command()
-#@click.option("-d", "--debug", help="Include debug output.")
-#def build(debug):
-#    """Build production assets."""
+    pass
 
 
 
@@ -31,15 +27,14 @@ def cli():
 
 @cli.command()
 def show_config():
-    from rich.console import Console
-    from rich.table import Table
-    from rich import box
+    """
+    Show information about the currently available configuration loaded from a .blast2galaxy.toml file
+    """
 
     from . import config
 
     try:
-        config_toml_path = config.get_config_toml_path()
-        config = config.load_config_toml()
+        config, config_toml_path = config.load_config_toml()
 
         table = Table(show_lines=True, box=box.SQUARE)
         table.add_column('Server ID', justify='left', style='white', no_wrap=True)
@@ -60,7 +55,7 @@ def show_config():
         table.add_column('Tool ID', justify='left', style='white')
 
         for profile_id, profile_config in config['profiles'].items():
-            table.add_row(profile_id, profile_config['server'], profile_config['tool_id'])
+            table.add_row(profile_id, profile_config['server'], profile_config['tool'])
 
         console = Console()
         console.print('\n[underline]Configured profiles:')
@@ -74,68 +69,89 @@ def show_config():
 
 
 
-# @cli.command()
-# def test_rich():
-#     from rich.console import Console
-#     from rich.table import Table
+@cli.command()
+@click.option('--server', help='Server-ID as in your config TOML', type=str, default='default', show_default=True)
+@click.option('--type', help='Type of BLAST search', type=click.Choice(ChoicesBlastType, case_sensitive=False), default=None)
+def list_tools(
+        server: str = '',
+        type: Optional[ChoicesBlastType | None] = None,
+        **kwargs
+    ):
+    """
+    list available and compatible BLAST+ and DIAMOND tools installed on a Galaxy server
+    """
 
-#     table = Table()
+    #print('==============================')
+    #print(server)
+    #print(type)
+    #print(kwargs)
+    #exit()
 
-#     table.add_column("Released", justify="right", style="cyan", no_wrap=True)
-#     table.add_column("Title", style="magenta")
-#     table.add_column("Box Office", justify="right", style="green")
+    blast_tools_databases_dict = server_info.get_available_tools_and_databases(
+        server = server,
+        blast_type = get_value(type)
+    )
 
-#     table.add_row("Dec 20, 2019", "Star Wars: The Rise of Skywalker", "$952,110,690")
-#     table.add_row("May 25, 2018", "Solo: A Star Wars Story", "$393,151,347")
-#     table.add_row("Dec 15, 2017", "Star Wars Ep. V111: The Last Jedi", "$1,332,539,889")
-#     table.add_row("Dec 16, 2016", "Rogue One: A Star Wars Story", "$1,332,439,889")
+    if 'calltype' in kwargs and kwargs['calltype'] == 'api':
+        return blast_tools_databases_dict
 
-#     console = Console()
-#     console.print(table)
+    table = Table(show_lines=True, box=box.SQUARE) # MINIMAL_DOUBLE_HEAD SQUARE
+    table.add_column('Tool', justify='left', style='white', no_wrap=True)
+    table.add_column('Tool ID', justify='left', style='white', no_wrap=True)
+    table.add_column('Tool Version', justify='left', style='white')
 
+    for tool_id, tool_specs in blast_tools_databases_dict.items():
+        table.add_row(tool_specs['tool_name'], tool_id, tool_specs['version'])
 
+    console = Console()
+    console.print('\n[underline]Available BLAST tools and corresponding databases:\n')
+    console.print(table)
 
-
-# @cli.command()
-# def test_config():
-#     from . import config
-#     test = config.get_profile(profile='univec')
-#     print(test)
-
+    # print('+++ TEST +++')
+    # #global config
+    # print(config)
+    # print(config.get_conf())
+    # print('///////////////')
+    # print(conf.config)
 
 
 
 
 @cli.command()
 @click.option('--server', help='Server-ID as in your config TOML', type=str, default='default', show_default=True)
-@click.option('--type', help='Type of BLAST search', type=click.Choice(ChoicesBlastType, case_sensitive=False))
-def list_tools(
+@click.option('--tool', help='Tool-ID of a tool available on the Galaxy server', type=str, required=True)
+def list_dbs(
         server: str = '',
-        type: Optional[ChoicesBlastType | None] = None,
+        tool: str = '',
+        **kwargs
     ):
-    from rich.console import Console
-    from rich.table import Table
-    from rich import box
+    """
+    list available databases of a BLAST+ or DIAMOND tool installed on a Galaxy server
+    """
 
-    blast_tool_ids, blast_tools_databases, blast_tools_databases_dict = server_info.get_available_tools_and_databases(
-        server = server,
-        blast_type = get_value(type)
-    )
+    tool_id = tool
 
-    table = Table(show_lines=True, box=box.SQUARE) # MINIMAL_DOUBLE_HEAD SQUARE
-    table.add_column('Tool', justify='left', style='white', no_wrap=True)
-    table.add_column('Tool ID', justify='left', style='white', no_wrap=True)
-    table.add_column('Available databases', justify='left', style='white')
+    blast_tools_databases_dict = server_info.get_available_tools_and_databases(server = server)
 
-    for tool_id, tool_specs in blast_tools_databases_dict.items():
-        dbs = ', '.join(list(tool_specs['available_databases']))
-        table.add_row(tool_specs['tool_name'], tool_id, dbs)
+    if tool_id in blast_tools_databases_dict:
 
-    console = Console()
-    console.print('\n[underline]Available BLAST tools and corresponding databases:\n')
-    console.print(table)
+        if 'calltype' in kwargs and kwargs['calltype'] == 'api':
+            return blast_tools_databases_dict[tool_id]['available_databases']
 
+        table = Table(show_lines=True, box=box.SQUARE) # MINIMAL_DOUBLE_HEAD SQUARE
+        table.add_column('Database ID', justify='left', style='white', no_wrap=True)
+        table.add_column('Database Description', justify='left', style='white', no_wrap=True)
 
+        for db_id, db_desc in blast_tools_databases_dict[tool_id]['available_databases'].items():
+            table.add_row(db_id, db_desc)
+
+        console = Console()
+        console.print(f'\n[underline]Available databases for tool with ID `{tool_id}`:\n')
+        console.print(table)
+
+    else:
+        console = Console()
+        console.print(f'\n[red]ERROR: A tool with ID `{tool_id}` does not exist on the Galaxy server `{server}`.\n')
 
 
 
@@ -162,7 +178,7 @@ def list_tools(
 @click.option('--gapopen', help=HELP.gapopen, type=click.IntRange(0))
 @click.option('--gapextend', help=HELP.gapextend, type=click.IntRange(0))
 def blastn(
-        profile: str = '',
+        profile: Optional[str] = '',
         query: str = '',
         task: Optional[ChoicesTaskBlastn] = ChoicesTaskBlastn.megablast,
         db: Optional[str | None] = None,
@@ -183,32 +199,31 @@ def blastn(
         gapextend: Optional[int | None] = None
     ):
     """
-    blastn
+    search nucleotide databases using a nucleotide query
+    """
 
-    blastn for searching nucleotide query sequence in a nucleotides BLAST database
-
+    """
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in
-        evalue: todo
-        out: todo
-        outfmt: todo
-        html: todo
-        dust: todo
-        strand: todo
-        max_hsps: todo
-        perc_identity: todo
-        word_size: todo
-        ungapped: todo
-        parse_deflines: todo
-        qcov_hsp_perc: todo
-        window_size: todo
-        gapopen: todo
-        gapextend: todo
+        evalue: Expectation value cutoff
+        out: Path / filename of file to store the BLAST result
+        outfmt: Output format
+        html: Format output as HTML document
+        dust: Filter out low complexity regions (with DUST)
+        strand: Query strand(s) to search against database/subject
+        max_hsps: Maximum number of HSPs (alignments) to keep for any single query-subject pair
+        perc_identity: Percent identity cutoff
+        word_size: Word size for wordfinder algorithm
+        ungapped: Perform ungapped alignment only?
+        parse_deflines: Should the query and subject defline(s) be parsed?
+        qcov_hsp_perc: Minimum query coverage per hsp (percentage, 0 to 100)
+        window_size: Multiple hits window size: use 0 to specify 1-hit algorithm, leave blank for default
+        gapopen: Cost to open a gap
+        gapextend: Cost to extend a gap
     """
-
 
     params = locals()
     params['tool'] = 'blastn'
@@ -280,6 +295,37 @@ def tblastn(
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '2',
     ):
+    """
+    search translated nucleotide databases using a protein query
+    """
+
+    """
+    Arguments:
+        profile: the profile from .blast2galaxy.config.toml
+        query: file path with your query sequence
+        task: the blastn task: megablast or something
+        db: the BLAST database to search in
+        evalue: Expectation value cutoff
+        out: Path / filename of file to store the BLAST result
+        outfmt: Output format
+        html: Format output as HTML document
+        seg: Filter out low complexity regions (with SEG)
+        db_gencode: Genetic code to use to translate database/subjects (see user manual for details)
+        matrix: Scoring matrix name (normally BLOSUM62)
+        max_target_seqs: Maximum number of aligned sequences to keep (value of 5 or more is recommended) Default = 500
+        num_descriptions: Number of database sequences to show one-line descriptions for. Not applicable for outfmt > 4. Default = 500 * Incompatible with:  max_target_seqs
+        num_alignments: Number of database sequences to show alignments for. Default = 250 * Incompatible with:  max_target_seqs
+        threshold: Minimum word score such that the word is added to the BLAST lookup table
+        max_hsps: Maximum number of HSPs (alignments) to keep for any single query-subject pair
+        word_size: Word size for wordfinder algorithm
+        ungapped: Perform ungapped alignment only?
+        parse_deflines: Should the query and subject defline(s) be parsed?
+        qcov_hsp_perc: Minimum query coverage per hsp (percentage, 0 to 100)
+        window_size: Multiple hits window size: use 0 to specify 1-hit algorithm, leave blank for default
+        gapopen: Cost to open a gap
+        gapextend: Cost to extend a gap
+        comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
+    """
 
     params = locals()
     params['tool'] = 'tblastn'
@@ -344,6 +390,37 @@ def blastp(
         comp_based_stats: Optional[str] = '2',
         use_sw_tback: Optional[bool] = False
     ):
+    """
+    search protein databases using a protein query
+    """
+
+    """
+    Arguments:
+        profile: the profile from .blast2galaxy.config.toml
+        query: file path with your query sequence
+        task: the blastn task: megablast or something
+        db: the BLAST database to search in
+        evalue: Expectation value cutoff
+        out: Path / filename of file to store the BLAST result
+        outfmt: Output format
+        html: Format output as HTML document
+        seg: Filter out low complexity regions (with SEG)
+        matrix: Scoring matrix name (normally BLOSUM62)
+        max_target_seqs: Maximum number of aligned sequences to keep (value of 5 or more is recommended) Default = 500
+        num_descriptions: Number of database sequences to show one-line descriptions for. Not applicable for outfmt > 4. Default = 500 * Incompatible with:  max_target_seqs
+        num_alignments: Number of database sequences to show alignments for. Default = 250 * Incompatible with:  max_target_seqs
+        threshold: Minimum word score such that the word is added to the BLAST lookup table
+        max_hsps: Maximum number of HSPs (alignments) to keep for any single query-subject pair
+        word_size: Word size for wordfinder algorithm
+        ungapped: Perform ungapped alignment only?
+        parse_deflines: Should the query and subject defline(s) be parsed?
+        qcov_hsp_perc: Minimum query coverage per hsp (percentage, 0 to 100)
+        window_size: Multiple hits window size: use 0 to specify 1-hit algorithm, leave blank for default
+        gapopen: Cost to open a gap
+        gapextend: Cost to extend a gap
+        comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
+        use_sw_tback: Compute locally optimal Smith-Waterman alignments?
+    """
 
     params = locals()
     params['tool'] = 'blastp'
@@ -407,6 +484,36 @@ def blastx(
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '2',
     ):
+    """
+    search protein databases using a translated nucleotide query
+    """
+
+    """
+    Arguments:
+        profile: the profile from .blast2galaxy.config.toml
+        query: file path with your query sequence
+        task: the blastn task: megablast or something
+        db: the BLAST database to search in
+        evalue: Expectation value cutoff
+        out: Path / filename of file to store the BLAST result
+        outfmt: Output format
+        html: Format output as HTML document
+        seg: Filter out low complexity regions (with SEG)
+        matrix: Scoring matrix name (normally BLOSUM62)
+        max_target_seqs: Maximum number of aligned sequences to keep (value of 5 or more is recommended) Default = 500
+        num_descriptions: Number of database sequences to show one-line descriptions for. Not applicable for outfmt > 4. Default = 500 * Incompatible with:  max_target_seqs
+        num_alignments: Number of database sequences to show alignments for. Default = 250 * Incompatible with:  max_target_seqs
+        threshold: Minimum word score such that the word is added to the BLAST lookup table
+        max_hsps: Maximum number of HSPs (alignments) to keep for any single query-subject pair
+        word_size: Word size for wordfinder algorithm
+        ungapped: Perform ungapped alignment only?
+        parse_deflines: Should the query and subject defline(s) be parsed?
+        qcov_hsp_perc: Minimum query coverage per hsp (percentage, 0 to 100)
+        window_size: Multiple hits window size: use 0 to specify 1-hit algorithm, leave blank for default
+        gapopen: Cost to open a gap
+        gapextend: Cost to extend a gap
+        comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
+    """
 
     params = locals()
     params['tool'] = 'blastx'
@@ -467,14 +574,41 @@ def diamond_blastp(
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
         matrix: Optional[str] = 'BLOSUM62',
         max_target_seqs: Optional[int] = None,
-        #threshold: Optional[float] = None,
         max_hsps: Optional[int] = None,
-        #ungapped: Optional[bool] = False,
         window: Optional[int] = None,
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '1',
     ):
+    """
+    search protein databases using a protein query with DIAMOND
+    """
+
+    """
+    Arguments:
+        profile: the profile from .blast2galaxy.config.toml
+        query: file path with your query sequence
+        task: the blastn task: megablast or something
+        db: the BLAST database to search in
+        evalue: Expectation value cutoff
+        out: Path / filename of file to store the BLAST result
+        outfmt: Output format
+        faster: faster mode
+        fast: fast mode
+        mid_sensitive: mid_sensitive mode
+        sensitive: sensitive mode
+        more_sensitive: more_sensitive mode
+        very_sensitive: very_sensitive mode
+        ultra_sensitive: ultra_sensitive mode
+        strand: Query strand(s) to search against database/subject
+        matrix: Scoring matrix name (normally BLOSUM62)
+        max_target_seqs: Maximum number of aligned sequences to keep (value of 5 or more is recommended) Default = 500
+        max_hsps: Maximum number of HSPs (alignments) to keep for any single query-subject pair
+        window: Multiple hits window size: use 0 to specify 1-hit algorithm, leave blank for default
+        gapopen: Cost to open a gap
+        gapextend: Cost to extend a gap
+        comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
+    """
 
     params = locals()
     params['tool'] = 'diamond_blastp'
@@ -510,9 +644,7 @@ def diamond_blastp(
 @click.option('--strand', help=HELP.strand, type=click.Choice(ChoicesStrand, case_sensitive=False), default=ChoicesStrand.both.value, show_default=True)
 @click.option('--matrix', help = HELP.matrix, type=str, default='BLOSUM62', show_default=True)
 @click.option('--max-target-seqs', help = HELP.max_target_seqs, type=click.IntRange(1), default=500, show_default=True)
-#@click.option('--threshold', help = HELP.threshold, type=click.FloatRange(0.0))
 @click.option('--max-hsps', help=HELP.max_hsps, type=int)
-#@click.option('--ungapped', help=HELP.ungapped, is_flag=True)
 @click.option('--window', help=HELP.window_size, type=click.IntRange(1))
 @click.option('--gapopen', help=HELP.gapopen, type=click.IntRange(0))
 @click.option('--gapextend', help=HELP.gapextend, type=click.IntRange(0))
@@ -535,14 +667,41 @@ def diamond_blastx(
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
         matrix: Optional[str] = 'BLOSUM62',
         max_target_seqs: Optional[int] = None,
-        #threshold: Optional[float] = None,
         max_hsps: Optional[int] = None,
-        #ungapped: Optional[bool] = False,
         window: Optional[int] = None,
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '1',
     ):
+    """
+    search protein databases using a translated nucleotide query with DIAMOND
+    """
+
+    """
+    Arguments:
+        profile: the profile from .blast2galaxy.config.toml
+        query: file path with your query sequence
+        task: the blastn task: megablast or something
+        db: the BLAST database to search in
+        evalue: Expectation value cutoff
+        out: Path / filename of file to store the BLAST result
+        outfmt: Output format
+        faster: faster mode
+        fast: fast mode
+        mid_sensitive: mid_sensitive mode
+        sensitive: sensitive mode
+        more_sensitive: more_sensitive mode
+        very_sensitive: very_sensitive mode
+        ultra_sensitive: ultra_sensitive mode
+        strand: Query strand(s) to search against database/subject
+        matrix: Scoring matrix name (normally BLOSUM62)
+        max_target_seqs: Maximum number of aligned sequences to keep (value of 5 or more is recommended) Default = 500
+        max_hsps: Maximum number of HSPs (alignments) to keep for any single query-subject pair
+        window: Multiple hits window size: use 0 to specify 1-hit algorithm, leave blank for default
+        gapopen: Cost to open a gap
+        gapextend: Cost to extend a gap
+        comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
+    """
 
     params = locals()
     params['tool'] = 'diamond_blastx'
