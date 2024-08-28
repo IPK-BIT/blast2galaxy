@@ -2,7 +2,7 @@
 name = "blast2galaxy"
 version = "0.1.0a1"
 keywords = ["bioinformatics", "blast", "sequence alignment"]
-description = "A Python package with a CLI and API to perform BLAST queries against Galaxy servers"
+description = "A Python package providing a CLI and API to perform BLAST+ and DIAMOND queries against public or private Galaxy servers"
 authors = ["Patrick König <koenig@ipk-gatersleben.de>"]
 readme = "README.md"
 license = "MIT"
@@ -37,7 +37,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "blast2galaxy"
-description = "A Python package with a CLI and API to perform BLAST queries against Galaxy servers"
+description = "A Python package providing a CLI and API to perform BLAST+ and DIAMOND queries against public or private Galaxy servers"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [

@@ -13,7 +13,8 @@
 
 
 ## About
-blast2galaxy is a Python package that provides a NCBI BLAST like CLI to perform BLAST searches against BLAST databases installed on Galaxy servers.
+
+A Python package providing a CLI and API to perform BLAST+ and DIAMOND queries against public or private Galaxy servers 
 
 ## Documentation
 
