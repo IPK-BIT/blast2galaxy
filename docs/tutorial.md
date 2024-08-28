@@ -2,6 +2,10 @@
 
 This tutorial described all process from installation to performing a BLAST search on the usegalaxy.eu instance.
 
+<h2>Prerequisites</h2>
+
+- Python version has to be >= 3.10
+
 ## 1. Obtaining API key from usegalaxy.eu
 
 1. Login into your account at [usegalaxy.eu](https://usegalaxy.eu/). If you don't have an account yet you can create one using LifeScience Login or the registration.
@@ -30,6 +34,9 @@ Install blast2galaxy by using the following command.
 
 !!! note
     It is highly recommended to install blast2galaxy in an isolated environment created with an environment management tool like conda/mamba, pixi, virtualenv or similar.
+
+!!! tip
+    It is also possible to install blast2galaxy via conda/mamba from the BioConda channel. This is explained in the [Installation section](installation.md#installation-with-mamba-or-conda).
 
 ```
 pip install blast2galaxy
@@ -61,6 +68,10 @@ Commands:
   show-config
   tblastn
 ```
+
+
+
+
 
 ## 3. Configuration of blast2galaxy
 

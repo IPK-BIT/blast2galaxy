@@ -2,7 +2,7 @@
 name = "blast2galaxy"
 version = "0.1.0a1"
 keywords = ["bioinformatics", "blast", "sequence alignment"]
-description = ""
+description = "A Python package with a CLI and API to perform BLAST queries against Galaxy servers"
 authors = ["Patrick König <koenig@ipk-gatersleben.de>"]
 readme = "README.md"
 license = "MIT"

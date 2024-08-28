@@ -7,7 +7,7 @@ blast2galaxy is available as a PyPI package (pip) and tested to be working with 
 
 ![Screenshot](figure_1_v3.png)
 
-<small>*Figure 1: blast2galaxy provides a high-level convenience layer between any Galaxy server with NCBI BLAST+ tools and/or DIAMOND installed and different types of clients and usage scenarios. Researchers, applications and computational pipelines can either use the Python-API or the CLI of blast2galaxy to send requests for a BLAST search to any compatible Galaxy server. The use of BLAST+ tools and/or DIAMOND by multiple applications and the provision of corresponding BLAST databases can be centralized and made reusable by use of a Galaxy server.*</small>
+<!--<small>*Figure 1: blast2galaxy provides a high-level convenience layer between any Galaxy server with NCBI BLAST+ tools and/or DIAMOND installed and different types of clients and usage scenarios. Researchers, applications and computational pipelines can either use the Python-API or the CLI of blast2galaxy to send requests for a BLAST search to any compatible Galaxy server. The use of BLAST+ tools and/or DIAMOND by multiple applications and the provision of corresponding BLAST databases can be centralized and made reusable by use of a Galaxy server.*</small>-->
 
 
 Please read the [CLI Reference](cli.md) if you want to use blast2galaxy on the command line as drop-in replacement for NCBI BLAST+ tools or DIAMOND
