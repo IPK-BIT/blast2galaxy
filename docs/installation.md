@@ -82,13 +82,13 @@ docker pull quay.io/biocontainers/blast2galaxy:<tag>
 Using Podman:
 
 ```bash
-$ podman run --name blast2galaxy -it quay.io/biocontainers/blast2galaxy:<tag>
+$ podman run -it blast2galaxy:<tag>
 ```
 
 Using Docker:
 
 ```bash
-$ docker run --name blast2galaxy -it quay.io/biocontainers/blast2galaxy:<tag>
+$ docker run -it blast2galaxy:<tag>
 ```
 
 When the container is running you can check if everything works fine by executing the following command on the shell of the running container:
