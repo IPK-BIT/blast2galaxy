@@ -8,7 +8,7 @@ This tutorial described all process from installation to performing a BLAST sear
 
 ## 1. Obtaining API key from usegalaxy.eu
 
-1. Login into your account at [usegalaxy.eu](https://usegalaxy.eu/). If you don't have an account yet you can create one using LifeScience Login or the registration.
+1. Login into your account at [usegalaxy.eu](https://usegalaxy.eu/){:target="_blank"}. If you don't have an account yet you can create one using LifeScience Login or the registration.
 <br /><br />
 
 2. After login into your account: In the main menu at the top of the page: click on `User` and in the appearing sub menu on `Preferences`: ![Galaxy User Settings](assets/usegalaxy_eu_00.jpg)
@@ -36,7 +36,8 @@ Install blast2galaxy by using the following command.
     It is highly recommended to install blast2galaxy in an isolated environment created with an environment management tool like conda/mamba, pixi, virtualenv or similar.
 
 !!! tip
-    It is also possible to install blast2galaxy via conda/mamba from the BioConda channel. This is explained in the [Installation section](installation.md#installation-with-mamba-or-conda).
+    - It is also possible to install blast2galaxy via conda / mamba from the Bioconda channel. This is explained in [here](installation.md#installation-with-mamba-or-conda).
+    - If your prefer a containerized setup you can use the Biocontainers image. This is explained [here](installation.md#using-biocontainers-image-with-docker-or-podman).
 
 ```
 pip install blast2galaxy
