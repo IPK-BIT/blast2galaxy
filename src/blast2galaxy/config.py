@@ -52,10 +52,6 @@ def add_default_profile(server_id, tool):
 def load_config_toml():
 
     if conf.config:
-        #print('HAS runtime config!!!')
-        #print(conf)
-        #print(conf.config)
-        #print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
         return conf.config, False
 
     config_path_cwd = Path.cwd().joinpath('.blast2galaxy.toml')
@@ -80,11 +76,6 @@ def load_config_toml():
 def get_profile(server='default', profile=None):
 
     config, _ = load_config_toml()
-    #print('================================')
-    #print(config)
-    #import json
-    #print(json.dumps(config, indent=4))
-    #exit()
 
     if profile:
 
@@ -115,14 +106,6 @@ def get_profile(server='default', profile=None):
         else:
             exit(f'ERROR: The server `{server}` is not defined in the config TOML!')
 
-    # print('SERVER:')
-    # print(config_server)
-    # print('PROFILE:')
-    # print(config_profile)
-    # print('-'*150)
-    # print('MERGED:')
-    # print(json.dumps(config_merged, indent=2))
-
     return config_merged
 
 
@@ -130,9 +113,6 @@ def get_profile(server='default', profile=None):
 def get_galaxy_instance(server = 'default', profile=None):
 
     config = get_profile(server=server, profile=profile)
-
-    #print(config)
-    #exit()
 
     try:
         if config['api_key']:

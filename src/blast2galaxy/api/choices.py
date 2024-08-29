@@ -62,7 +62,6 @@ class ChoicesOutfmtDiamond(str, StrEnum):
     taxonomic_classification = '102'
     paf = '103'
     json = '104'
-    #json = 'json'
 
 
 ParamMappingOutfmt = {

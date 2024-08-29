@@ -30,7 +30,6 @@ def show_config():
     """
     Show information about the currently available configuration loaded from a .blast2galaxy.toml file
     """
-
     from . import config
 
     try:
@@ -80,13 +79,6 @@ def list_tools(
     """
     list available and compatible BLAST+ and DIAMOND tools installed on a Galaxy server
     """
-
-    #print('==============================')
-    #print(server)
-    #print(type)
-    #print(kwargs)
-    #exit()
-
     blast_tools_databases_dict = server_info.get_available_tools_and_databases(
         server = server,
         blast_type = get_value(type)
@@ -107,13 +99,6 @@ def list_tools(
     console.print('\n[underline]Available BLAST tools and corresponding databases:\n')
     console.print(table)
 
-    # print('+++ TEST +++')
-    # #global config
-    # print(config)
-    # print(config.get_conf())
-    # print('///////////////')
-    # print(conf.config)
-
 
 
 
@@ -128,7 +113,6 @@ def list_dbs(
     """
     list available databases of a BLAST+ or DIAMOND tool installed on a Galaxy server
     """
-
     tool_id = tool
 
     blast_tools_databases_dict = server_info.get_available_tools_and_databases(server = server)
@@ -224,13 +208,8 @@ def blastn(
         gapopen: Cost to open a gap
         gapextend: Cost to extend a gap
     """
-
     params = locals()
     params['tool'] = 'blastn'
-    #print(params)
-    #print(type(params))
-    #exit()
-
     api.request(params=params)
 
 
@@ -326,13 +305,8 @@ def tblastn(
         gapextend: Cost to extend a gap
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
     """
-
     params = locals()
     params['tool'] = 'tblastn'
-    #print(params)
-    #print(type(params))
-    #exit()
-
     api.request(params=params)
 
 
@@ -421,13 +395,8 @@ def blastp(
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
         use_sw_tback: Compute locally optimal Smith-Waterman alignments?
     """
-
     params = locals()
     params['tool'] = 'blastp'
-    #print(params)
-    #print(type(params))
-    #exit()
-
     api.request(params=params)
 
 
@@ -514,13 +483,8 @@ def blastx(
         gapextend: Cost to extend a gap
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
     """
-
     params = locals()
     params['tool'] = 'blastx'
-    #print(params)
-    #print(type(params))
-    #exit()
-
     api.request(params=params)
 
 
@@ -609,13 +573,8 @@ def diamond_blastp(
         gapextend: Cost to extend a gap
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
     """
-
     params = locals()
     params['tool'] = 'diamond_blastp'
-    #print(params)
-    #print(type(params))
-    #exit()
-
     api.request(params=params)
 
 
@@ -702,24 +661,6 @@ def diamond_blastx(
         gapextend: Cost to extend a gap
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
     """
-
     params = locals()
     params['tool'] = 'diamond_blastx'
-    #print(params)
-    #print(type(params))
-    #exit()
-
     api.request(params=params)
-
-
-
-
-
-
-
-
-
-
-
-#if __name__ == "__main__":
-#   cli() 

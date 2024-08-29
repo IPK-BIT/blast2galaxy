@@ -1,14 +1,9 @@
-import os
-from pathlib import Path
-from enum import Enum
-from typing import Optional
 import json
 
-from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools.inputs import inputs
 
-from .choices import ChoicesTaskBlastn, ChoicesOutfmt, ParamMappingOutfmt, ChoicesYesNo, ChoicesStrand
-from ..utils import get_value, parse_tabular_to_list_of_dict
+from .choices import ChoicesOutfmt, ParamMappingOutfmt
+from ..utils import parse_tabular_to_list_of_dict
 from .. import config
 
 
@@ -26,107 +21,6 @@ diamond_outfmt_fields = [
     'evalue',
     'bitscore'
 ]
-
-
-def blastn(
-        profile: str = '',
-        query: str = '',
-        task: Optional[ChoicesTaskBlastn] = ChoicesTaskBlastn.megablast,
-        db: Optional[str | None] = None,
-        evalue: Optional[str] = '0.001',
-        out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std,
-        html: Optional[bool] = False,
-        dust: Optional[ChoicesYesNo] = ChoicesYesNo.yes,
-        strand: Optional[ChoicesStrand] = ChoicesStrand.both,
-        max_hsps: Optional[int | None] = None,
-        perc_identity: Optional[float] = 0.0,
-        word_size: Optional[int | None] = None,
-        ungapped: Optional[bool] = False,
-        parse_deflines: Optional[bool] = False,
-        qcov_hsp_perc: Optional[float] = 0.0,
-        window_size: Optional[int | None] = None,
-        gapopen: Optional[int | None] = None,
-        gapextend: Optional[int | None] = None
-    ):
-    """
-    blastn for searching nucleotide query sequence in a nucleotides BLAST database
-
-    Arguments:
-        profile: the profile from .blast2galaxy.config.toml
-        query: file path with your query sequence
-        task: the blastn task: megablast or something
-        db: the BLAST database to search in
-        evalue: todo
-        out: todo
-        outfmt: todo
-        html: todo
-        dust: todo
-        strand: todo
-        max_hsps: todo
-        perc_identity: todo
-        word_size: todo
-        ungapped: todo
-        parse_deflines: todo
-        qcov_hsp_perc: todo
-        window_size: todo
-        gapopen: todo
-        gapextend: todo
-    """
-    print('test')
-
-
-def __blastn(
-        profile: str = 'default',
-        query: str = '',
-        task: Optional[ChoicesTaskBlastn] = ChoicesTaskBlastn.megablast,
-        db: Optional[str] = None,
-        evalue: Optional[str] = '0.001',
-        out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
-        html: Optional[bool] = False,
-        dust: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
-        strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
-        max_hsps: Optional[int] = None,
-        perc_identity: Optional[float] = 0.0,
-        word_size: Optional[int] = None,
-        ungapped: Optional[bool] = False,
-        parse_deflines: Optional[bool] = False,
-        qcov_hsp_perc: Optional[float] = 0.0,
-        window_size: Optional[int] = None,
-        gapopen: Optional[int] = None,
-        gapextend: Optional[int] = None
-    ):
-
-    
-    # print("################ Do a BLASTN!")
-    # print('profile = ', profile)
-    # print("=== Params ===")
-    # print('query = ', query)
-    # print('task = ', get_value(task))
-    # print('db = ', db)
-    # print('evalue = ', evalue)
-    # #print('outfmt = ', ParamMappingOutfmt[outfmt])
-    # print('outfmt = ', outfmt)
-    # print('html = ', html)
-    # print('dust = ', get_value(dust))
-    # print('strand = ', get_value(strand))
-    # print('max_hsps = ', max_hsps)
-    # print('perc_identity = ', perc_identity)
-    # print('word_size = ', word_size)
-    # print('ungapped = ', ungapped)
-    # print('parse_deflines = ', parse_deflines)
-    # print('qcov_hsp_perc = ', qcov_hsp_perc)
-    # print('window_size = ', window_size)
-    # print('gapopen = ', gapopen)
-    # print('gapextend = ', gapextend)
-    
-    #exit()
-
-    #result = blastn_request(locals())
-    #print(result)
-    blastn_request(locals())
-
 
 
 
@@ -255,17 +149,12 @@ def _get_diamond_tool_inputs(params, tool_inputs):
 
 
 def request(params):
-    print('... PERFORM BLAST ...')
-    print(params)
 
-    #exit()
-    
     JSON_OUTPUT = False
     
     gi = config.get_galaxy_instance(profile=params['profile'])
 
     profile = config.get_profile(profile=params['profile'])
-
 
     try:
         with open(params['query']) as f:
@@ -290,12 +179,7 @@ def request(params):
         outfmt = ParamMappingOutfmt['tabular-std']
 
 
-
-    #histories = gi.histories.get_histories()
-    #history_id = histories[0]['id']
-
-    #history_name = config['history_name']
-    history_name = 'blast2galaxy_test_dev'
+    history_name = 'blast2galaxy'
     histories = gi.histories.get_histories(name = history_name)
     if not histories:
         gi.histories.create_history(name = history_name)
@@ -331,15 +215,9 @@ def request(params):
         tool_inputs = _set_adv_opts(params, tool_inputs)
 
 
-    
-    tool_inputs_dict = tool_inputs.to_dict()
-    print('='*150)
-    print(json.dumps(tool_inputs_dict, indent=4))
-    print('+ tool_id = ', profile['tool'])
-    print('+ history_id = ', history_id)
-    print('='*150)
-
-    #exit()
+    # kept for debugging
+    #tool_inputs_dict = tool_inputs.to_dict()
+    #print(json.dumps(tool_inputs_dict, indent=4))
 
 
     run_tool_result = gi.tools.run_tool(

@@ -1,5 +1,4 @@
 from itertools import compress
-import json
 
 from .. import config
 
@@ -8,7 +7,6 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
     gi = config.get_galaxy_instance(server=server)
 
     blast_tool_ids = []
-    #blast_tools_databases = []
     blast_tools_databases_dict = {}
 
     tool_id_pattern_to_tool_type = {
@@ -51,15 +49,9 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
             if tool['version'] in compatible_versions[tool_name]:
                 blast_tool_ids.append(tool['id'])
 
-            #if tool['id'] == 'ncbi_tblastn_wrapper_faba':
-            #    print(json.dumps(tool, indent=2))
-
     for blast_tool_id in blast_tool_ids:
         blast_tool_details = gi.tools.show_tool(blast_tool_id, io_details=True)
         blast_tool_databases = {}
-
-        #if blast_tool_id == 'ncbi_tblastn_wrapper_faba':
-        #    print(json.dumps(blast_tool_details, indent=2))
 
         for _input in blast_tool_details['inputs']:
 
@@ -72,7 +64,7 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
                                 for _database in __input['options']:
                                     blast_tool_databases[_database[1]] = _database[0]
 
-            # diamond
+            # DIAMOND
             if _input['name'] == 'ref_db_source':
                 for _case in _input['cases']:
                     if _case['value'] == 'indexed':
