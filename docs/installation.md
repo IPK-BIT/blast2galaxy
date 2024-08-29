@@ -96,3 +96,22 @@ When the container is running you can check if everything works fine by executin
 ```
 blast2galaxy --help
 ```
+
+
+## Using Apptainer (Singularity) image
+
+Pull the image:
+```bash
+$ apptainer pull blast2galaxy.sif https://depot.galaxyproject.org/singularity/blast2galaxy:<tag>
+```
+
+Start a container:
+```bash
+$ apptainer shell blast2galaxy.sif
+```
+
+When the container is running you can check if everything works fine by executing the following command on the shell of the running container:
+
+```
+blast2galaxy --help
+```

@@ -12,16 +12,20 @@ Both ways of configuration are described in the following sections of this page.
 
 ## TOML file based configuration
 
-To connect to an API of an existing Galaxy server, the user of blast2galaxy has to provide API access credentials in the form of a Galaxy API key. Furthermore, it is possible to connect via the username and password of the user account on the specific Galaxy server. For security reasons, the latter variant should only be used if the use of an API key is not possible.
+<!--To connect to an API of an existing Galaxy server, the user of blast2galaxy has to provide API access credentials in the form of a Galaxy API key. 
+Furthermore, it is possible to connect via the username and password of the user account on the specific Galaxy server. For security reasons, the latter variant should only be used if the use of an API key is not possible.-->
 
 
 
-blast2galaxy uses the TOML file format for configuration of one or multiple Galaxy servers and one or multiple profiles.
-The default filename of the config file id `.blast2galaxy.config.toml` and blast2galaxy looks for it in the current working directory.
+blast2galaxy uses the [TOML file format](https://toml.io/){:target="_blank"} for configuration of one or multiple Galaxy servers and one or multiple profiles.
+The default filename of the config file is `.blast2galaxy.config.toml` and blast2galaxy looks for it in the current working directory.
 If it can't find a configuration file in the current working directory it looks for one in the home-directory of the current user.
 If it can't find any configuration file an error message will be displayed.
 
-An individually named configuration file at a storage location of your choice can be set via the `--configfile=PATH` parameter of the CLI. 
+An individually named configuration file at a storage location of your choice can be set via the following parameter of the CLI:
+```
+--configfile=PATH
+```
 
 Example: 
 ```
@@ -54,9 +58,15 @@ Where `###` has to be replaced with either `default` or a unique server-ID / pro
 
 
 <br />
-### Servers
+#### Servers
 
 The servers section holds one or multiple Galaxy server instances with their corresponding URLs and API-Keys.
+
+
+!!! note
+    To connect to an API of an existing Galaxy server, the user of blast2galaxy has to provide API access credentials in the form of a Galaxy API key. 
+    How you can obtain an API key is described in the [Tutorial](tutorial.md#1-obtaining-api-key-from-usegalaxyeu)
+
 
 Example:
 ```toml
@@ -82,7 +92,7 @@ api_key = "65dcb*******************************"
 
 
 <br />
-### Profiles
+#### Profiles
 
 The profiles section holds one or multiple profiles where each profile configures at least the Galaxy server and the Tool-ID to be used.
 
