@@ -15,13 +15,10 @@ from .api import server_info
 from .utils import get_value
 
 
-
-
 @click.group(name='blast2galaxy')
+@click.version_option(package_name = 'blast2galaxy')
 def cli():
     pass
-
-
 
 
 

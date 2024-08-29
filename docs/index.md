@@ -7,7 +7,7 @@
     - [Bioconda package](https://bioconda.github.io/recipes/blast2galaxy/README.html){:target="_blank"}
     - [Biocontainers image](https://quay.io/repository/biocontainers/blast2galaxy?tab=tags){:target="_blank"}
 
-- blast2galaxy is tested to be working with the following Python versions: 3.10, 3.11, 3.12
+- blast2galaxy is tested to be working with the following Python versions: `3.10`, `3.11`, `3.12`
 
 - Please read the [CLI Reference](cli.md) if you want to use blast2galaxy on the command line as drop-in replacement for NCBI BLAST+ tools or DIAMOND
 or read the [API Reference](api.md) if you want to use blast2galaxy inside a Python application to perform BLAST or DIAMOND queries against a Galaxy server.

@@ -1,5 +1,4 @@
 from typing import Optional
-from typing_extensions import Annotated
 
 import click
 
@@ -36,7 +35,7 @@ def __invoke(cli_method, _kwargs):
 def list_tools(
         server: Optional[str] = 'default',
         type: Optional[ChoicesBlastType | None] = None,
-    ):
+    ) -> dict:
     """
     list_tools
 
@@ -55,7 +54,7 @@ def list_tools(
 def list_dbs(
         tool: str,
         server: Optional[str] = 'default'
-    ):
+    ) -> dict:
     """
     list_dbs
 
@@ -122,7 +121,6 @@ def blastn(
         gapopen: Cost to open a gap
         gapextend: Cost to extend a gap
     """
-
     params = locals()
     params['calltype'] = 'api'
     __invoke(cli.blastn, params)
@@ -186,7 +184,6 @@ def tblastn(
         gapextend: Cost to extend a gap
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
     """
-
     params = locals()
     params['calltype'] = 'api'
     __invoke(cli.tblastn, params)
@@ -251,7 +248,6 @@ def blastp(
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
         use_sw_tback: Compute locally optimal Smith-Waterman alignments?
     """
-
     params = locals()
     params['calltype'] = 'api'
     __invoke(cli.blastp, params)
@@ -313,7 +309,6 @@ def blastx(
         gapextend: Cost to extend a gap
         comp_based_stats: Use composition-based statistics: D or d: default (equivalent to 2 ); 0 or F or f: No composition-based statistics; 1: Composition-based statistics as in NAR 29:2994-3005, 2001; 2 or T or t : Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, conditioned on sequence properties; 3: Composition-based score adjustment as in Bioinformatics 21:902-911, 2005, unconditionally
     """
-
     params = locals()
     params['calltype'] = 'api'
     __invoke(cli.blastx, params)
@@ -438,8 +433,6 @@ def diamond_blastx(
     params = locals()
     params['calltype'] = 'api'
     __invoke(cli.diamond_blastx, params)
-
-
 
 
 
