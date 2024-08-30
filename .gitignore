@@ -166,5 +166,6 @@ result_*.txt
 /src/*.txt
 test*.txt
 *.result.txt
-*.fasta
 /src/*.fasta
+/dev
+get_tools.py
