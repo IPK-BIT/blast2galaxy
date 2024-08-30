@@ -39,19 +39,7 @@ class ChoicesTaskBlastp(str, StrEnum):
     blastp_short = 'blastp-short'
     blastp_fast = 'blastp-fast'
 
-
-class ChoicesOutfmt(str, StrEnum):
-    tab_std = 'tabular-std'
-    tab_ext = 'tabular-ext'
-    xml = 'xml'
-    pairwise_text = 'pairwise-text'
-    pairwise_html = 'pairwise-html'
-    query_anchored_text = 'query-anchored-text'
-    query_anchored_html = 'query-anchored-html'
-    flat_query_anchored_text = 'flat-query-anchored-text'
-    flat_query_anchored_html = 'flat-query-anchored-html'
-    json = 'json'
-
+ChoicesOutfmt = ['0', '2', '4', '5', '6', 'ext', 'json']
 
 class ChoicesOutfmtDiamond(str, StrEnum):
     blast_pairwise = '0'
@@ -60,22 +48,8 @@ class ChoicesOutfmtDiamond(str, StrEnum):
     daa = '100'
     sam = '101'
     taxonomic_classification = '102'
-    paf = '103'
-    json = '104'
-
-
-ParamMappingOutfmt = {
-    'tabular-std': '6',
-    'tabular-ext': 'ext',
-    'xml': '5',
-    'pairwise-text': '0',
-    'pairwise-html': '0 -html',
-    'query-anchored-text': '2',
-    'query-anchored-html': '2 -html',
-    'flat-query-anchored-text': '4',
-    'flat-query-anchored-html': '4 -html',
-    'json': '6'
-}
+    #paf = '103'
+    #json = '104'
 
 
 class ChoicesStrand(str, StrEnum):

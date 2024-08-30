@@ -1,6 +1,7 @@
 from itertools import compress
 
 from .. import config
+from .. import errors
 
 def get_available_tools_and_databases(server = 'default', blast_type = None):
 
@@ -32,8 +33,7 @@ def get_available_tools_and_databases(server = 'default', blast_type = None):
             tool_id_pattern_to_tool_type_inv = {v: k for k, v in tool_id_pattern_to_tool_type.items()}
             blast_tool_ids_to_match = [ tool_id_pattern_to_tool_type_inv[blast_type] ]
         else:
-            print(f'ERROR: The type `{blast_type}` is not implemented in blast2galaxy.')
-            exit()
+            raise errors.Blast2galaxyError(f'The type `{blast_type}` is not implemented in blast2galaxy.')
     else:
         blast_tool_ids_to_match = tool_id_pattern_to_tool_type.keys()
 

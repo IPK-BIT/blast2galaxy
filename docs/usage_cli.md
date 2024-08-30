@@ -1,7 +1,3 @@
-# Usage
-
-## Using the CLI
-
 After installation of blast2galaxy you can use the `blast2galaxy` CLI to perform BLAST and DIAMOND searches against the Galaxy servers you have configured
 in the `.blast2galaxy.config.toml` file
 
@@ -48,53 +44,13 @@ blast2galaxy list-tools --server=SERVER_ID --tool=TOOL_ID
 ### Perform search requests
 
 ```
-blast2galaxy blastn --profile=blastn --query=test.fasta --db=vertebrata_cds --out=blastn_vertebrata.txt --outfmt=6
+blast2galaxy blastn --profile=blastn --query=dna.fasta --db=vertebrata_cds --out=blastn_vertebrata.txt --outfmt=6
 ```
 
 ```
-blast2galaxy diamond-blastx --profile=diamond_blastp --query=test.fasta --db=Hordeum_vulgare__BPGv2__all_BPGv2:pep --out=result_diamond_blastx_vrs1_cds.txt --outfmt=6
+blast2galaxy diamond-blastp --profile=diamond_blastp --query=protein.fasta --db=uniprot_swissprot_2023_03 --out=result_diamond_blastp.txt --outfmt=6
 ```
 
+### Output result to `stdout`
 
-
-
-
-## Using the Python API
-
-After installation with `pip install blast2galaxy` the Python API can be imported to your Python application via `import blast2galaxy`.
-
-You can then perform BLAST or DIAMOND requests using the configured `default` profile like so:
-
-```python
-blast2galaxy.blastn(
-    query = 'dna_sequence.fasta',
-    db = 'database_id',
-    out = 'result_blastn.txt',
-    outfmt = '6'
-)
-```
-
-A specific profile can be used like so:
-
-```python
-blast2galaxy.blastp(
-    profile = 'blastp',
-    query = 'protein_sequence.fasta',
-    db = 'database_id',
-    out = 'result_blastp.txt',
-    outfmt = '6'
-)
-```
-
-If the profile has configured a database you can omit the `db` parameter of the function call:
-
-```python
-blast2galaxy.diamond_blastp(
-    profile = 'diamond_blastp_plantae_genes',
-    query = 'protein_sequence.fasta',
-    out = 'result_diamond.txt',
-    outfmt = '6'
-)
-```
-
-You can find all possible arguments and parameters in the [API reference](api.md).
+If the `--out` parameter of the CLI is omitted, the result of the search request is forwarded to `stdout`.

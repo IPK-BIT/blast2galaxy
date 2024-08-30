@@ -9,4 +9,4 @@ nox.options.reuse_venv = True
 def tests(session):
     session.conda_install("python=" + session.python)
     session.install("pytest", ".")
-    session.run("pytest", "-s")
+    session.run("pytest", "-s", "tests/")

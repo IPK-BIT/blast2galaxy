@@ -13,6 +13,20 @@ from .api.help_texts import HELP
 
 from .api import server_info
 from .utils import get_value
+from . import errors
+
+
+
+
+def __invoke_request(params, kwargs):
+    if 'calltype' in kwargs and kwargs['calltype'] == 'api':
+        return api.request(params=params)
+    else:
+        try:
+            api.request(params=params)
+        except errors.Blast2galaxyError as e:
+            e.show()
+
 
 
 @click.group(name='blast2galaxy')
@@ -76,13 +90,23 @@ def list_tools(
     """
     list available and compatible BLAST+ and DIAMOND tools installed on a Galaxy server
     """
-    blast_tools_databases_dict = server_info.get_available_tools_and_databases(
-        server = server,
-        blast_type = get_value(type)
-    )
+    IS_API_CALL = True if 'calltype' in kwargs and kwargs['calltype'] == 'api' else False
 
-    if 'calltype' in kwargs and kwargs['calltype'] == 'api':
-        return blast_tools_databases_dict
+    try:
+        blast_tools_databases_dict = server_info.get_available_tools_and_databases(
+            server = server,
+            blast_type = get_value(type)
+        )
+        if IS_API_CALL:
+            return blast_tools_databases_dict
+    except errors.Blast2galaxyConfigFileError as e:
+        if IS_API_CALL:
+            raise e
+        else:
+            e.show()
+
+
+
 
     table = Table(show_lines=True, box=box.SQUARE) # MINIMAL_DOUBLE_HEAD SQUARE
     table.add_column('Tool', justify='left', style='white', no_wrap=True)
@@ -136,16 +160,14 @@ def list_dbs(
 
 
 
-
-
 @cli.command()
 @click.option('--profile', default='default', show_default=True, help = HELP.profile, type=str)
 @click.option('--query', required = True, help = HELP.query, type=str)
 @click.option('--task', help=HELP.task, type=click.Choice(ChoicesTaskBlastn, case_sensitive=False), default=ChoicesTaskBlastn.megablast.value, show_default=True)
 @click.option('--db', required=True, help=HELP.db, type=str)
 @click.option('--evalue', help = HELP.evalue, default='0.001', show_default=True)
-@click.option('--out', required = True, help = HELP.out, type=str)
-@click.option('--outfmt', help=HELP.outfmt, type=str, default=ChoicesOutfmt.tab_std.value, show_default=True)
+@click.option('--out', help = HELP.out, type=str, default=None)
+@click.option('--outfmt', help=HELP.outfmt, type=click.Choice(ChoicesOutfmt, case_sensitive=True), default='6', show_default=True)
 @click.option('--html', help=HELP.html, is_flag=True)
 @click.option('--dust', help=HELP.dust, type=click.Choice(ChoicesYesNo, case_sensitive=False), default=ChoicesYesNo.yes.value, show_default=True)
 @click.option('--strand', help=HELP.strand, type=click.Choice(ChoicesStrand, case_sensitive=False), default=ChoicesStrand.both.value, show_default=True)
@@ -165,7 +187,7 @@ def blastn(
         db: Optional[str | None] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         dust: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
@@ -177,7 +199,8 @@ def blastn(
         qcov_hsp_perc: Optional[float] = 0.0,
         window_size: Optional[int | None] = None,
         gapopen: Optional[int | None] = None,
-        gapextend: Optional[int | None] = None
+        gapextend: Optional[int | None] = None,
+        **kwargs
     ):
     """
     search nucleotide databases using a nucleotide query
@@ -207,7 +230,7 @@ def blastn(
     """
     params = locals()
     params['tool'] = 'blastn'
-    api.request(params=params)
+    return __invoke_request(params, kwargs)
 
 
 
@@ -226,8 +249,8 @@ def blastn(
 @click.option('--task', help=HELP.task, type=click.Choice(ChoicesTaskTblastn, case_sensitive=False), default=ChoicesTaskTblastn.tblastn.value, show_default=True)
 @click.option('--db', required=True, help=HELP.db, type=str)
 @click.option('--evalue', help = HELP.evalue, default='0.001', show_default=True)
-@click.option('--out', required = True, help = HELP.out, type=str)
-@click.option('--outfmt', help=HELP.outfmt, type=str, default=ChoicesOutfmt.tab_std.value, show_default=True)
+@click.option('--out', help = HELP.out, type=str, default=None)
+@click.option('--outfmt', help=HELP.outfmt, type=click.Choice(ChoicesOutfmt, case_sensitive=True), default='6', show_default=True)
 @click.option('--html', help=HELP.html, is_flag=True)
 @click.option('--seg', help=HELP.seg, type=click.Choice(ChoicesYesNo, case_sensitive=False), default=ChoicesYesNo.yes.value, show_default=True)
 @click.option('--db_gencode', help=HELP.db_gencode, type=int, default=1, show_default=True)
@@ -252,14 +275,14 @@ def tblastn(
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         seg: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         db_gencode: Optional[int] = None,
         matrix: Optional[str] = None,
-        max_target_seqs: Optional[int] = None,
-        num_descriptions: Optional[int] = None,
-        num_alignments: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
+        num_descriptions: Optional[int] = 500,
+        num_alignments: Optional[int] = 250,
         threshold: Optional[float] = None,
         max_hsps: Optional[int] = None,
         word_size: Optional[int] = None,
@@ -270,6 +293,7 @@ def tblastn(
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '2',
+        **kwargs
     ):
     """
     search translated nucleotide databases using a protein query
@@ -304,7 +328,7 @@ def tblastn(
     """
     params = locals()
     params['tool'] = 'tblastn'
-    api.request(params=params)
+    return __invoke_request(params, kwargs)
 
 
 
@@ -316,8 +340,8 @@ def tblastn(
 @click.option('--task', help=HELP.task, type=click.Choice(ChoicesTaskBlastp, case_sensitive=False), default=ChoicesTaskBlastp.blastp.value, show_default=True)
 @click.option('--db', required=True, help=HELP.db, type=str)
 @click.option('--evalue', help = HELP.evalue, default='0.001', show_default=True)
-@click.option('--out', required = True, help = HELP.out, type=str)
-@click.option('--outfmt', help=HELP.outfmt, type=str, default=ChoicesOutfmt.tab_std.value, show_default=True)
+@click.option('--out', help = HELP.out, type=str, default=None)
+@click.option('--outfmt', help=HELP.outfmt, type=click.Choice(ChoicesOutfmt, case_sensitive=True), default='6', show_default=True)
 @click.option('--html', help=HELP.html, is_flag=True)
 @click.option('--seg', help=HELP.seg, type=click.Choice(ChoicesYesNo, case_sensitive=False), default=ChoicesYesNo.yes.value, show_default=True)
 @click.option('--matrix', help = HELP.matrix, type=str)
@@ -342,11 +366,11 @@ def blastp(
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         seg: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         matrix: Optional[str] = None,
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         num_descriptions: Optional[int] = None,
         num_alignments: Optional[int] = None,
         threshold: Optional[float] = None,
@@ -359,7 +383,8 @@ def blastp(
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '2',
-        use_sw_tback: Optional[bool] = False
+        use_sw_tback: Optional[bool] = False,
+        **kwargs
     ):
     """
     search protein databases using a protein query
@@ -394,7 +419,7 @@ def blastp(
     """
     params = locals()
     params['tool'] = 'blastp'
-    api.request(params=params)
+    return __invoke_request(params, kwargs)
 
 
 
@@ -407,8 +432,8 @@ def blastp(
 @click.option('--task', help=HELP.task, type=click.Choice(ChoicesTaskBlastx, case_sensitive=False), default=ChoicesTaskBlastx.blastx.value, show_default=True)
 @click.option('--db', required=True, help=HELP.db, type=str)
 @click.option('--evalue', help = HELP.evalue, default='0.001', show_default=True)
-@click.option('--out', required = True, help = HELP.out, type=str)
-@click.option('--outfmt', help=HELP.outfmt, type=str, default=ChoicesOutfmt.tab_std.value, show_default=True)
+@click.option('--out', help = HELP.out, type=str, default=None)
+@click.option('--outfmt', help=HELP.outfmt, type=click.Choice(ChoicesOutfmt, case_sensitive=True), default='6', show_default=True)
 @click.option('--html', help=HELP.html, is_flag=True)
 @click.option('--seg', help=HELP.seg, type=click.Choice(ChoicesYesNo, case_sensitive=False), default=ChoicesYesNo.yes.value, show_default=True)
 @click.option('--matrix', help = HELP.matrix, type=str)
@@ -432,11 +457,11 @@ def blastx(
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         seg: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         matrix: Optional[str] = None,
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         num_descriptions: Optional[int] = None,
         num_alignments: Optional[int] = None,
         threshold: Optional[float] = None,
@@ -449,6 +474,7 @@ def blastx(
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '2',
+        **kwargs
     ):
     """
     search protein databases using a translated nucleotide query
@@ -482,7 +508,7 @@ def blastx(
     """
     params = locals()
     params['tool'] = 'blastx'
-    api.request(params=params)
+    return __invoke_request(params, kwargs)
 
 
 
@@ -498,7 +524,7 @@ def blastx(
 @click.option('--task', help=HELP.task, type=click.Choice(ChoicesTaskBlastp, case_sensitive=False), default=ChoicesTaskBlastp.blastp.value, show_default=True)
 @click.option('--db', required=True, help=HELP.db, type=str)
 @click.option('--evalue', help = HELP.evalue, default='0.001', show_default=True)
-@click.option('--out', required = True, help = HELP.out, type=str)
+@click.option('--out', help = HELP.out, type=str, default=None)
 @click.option('--outfmt', help=HELP.outfmt, type=str, default=ChoicesOutfmtDiamond.blast_pairwise.value, show_default=True)
 @click.option('--faster', is_flag=True)
 @click.option('--fast', is_flag=True)
@@ -510,9 +536,7 @@ def blastx(
 @click.option('--strand', help=HELP.strand, type=click.Choice(ChoicesStrand, case_sensitive=False), default=ChoicesStrand.both.value, show_default=True)
 @click.option('--matrix', help = HELP.matrix, type=str, default='BLOSUM62', show_default=True)
 @click.option('--max-target-seqs', help = HELP.max_target_seqs, type=click.IntRange(1), default=500, show_default=True)
-#@click.option('--threshold', help = HELP.threshold, type=click.FloatRange(0.0))
 @click.option('--max-hsps', help=HELP.max_hsps, type=int)
-#@click.option('--ungapped', help=HELP.ungapped, is_flag=True)
 @click.option('--window', help=HELP.window_size, type=click.IntRange(1))
 @click.option('--gapopen', help=HELP.gapopen, type=click.IntRange(0))
 @click.option('--gapextend', help=HELP.gapextend, type=click.IntRange(0))
@@ -523,7 +547,7 @@ def diamond_blastp(
         task: Optional[ChoicesTaskBlastp] = ChoicesTaskBlastp.blastp,
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
-        out: str = '',
+        out: str = None,
         outfmt: Optional[ChoicesOutfmtDiamond] = ChoicesOutfmtDiamond.blast_pairwise.value,
         faster: Optional[bool] = False,
         fast: Optional[bool] = False,
@@ -534,12 +558,13 @@ def diamond_blastp(
         ultra_sensitive: Optional[bool] = False,
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
         matrix: Optional[str] = 'BLOSUM62',
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         max_hsps: Optional[int] = None,
         window: Optional[int] = None,
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '1',
+        **kwargs
     ):
     """
     search protein databases using a protein query with DIAMOND
@@ -572,8 +597,7 @@ def diamond_blastp(
     """
     params = locals()
     params['tool'] = 'diamond_blastp'
-    api.request(params=params)
-
+    return __invoke_request(params, kwargs)
 
 
 
@@ -588,7 +612,7 @@ def diamond_blastp(
 @click.option('--task', help=HELP.task, type=click.Choice(ChoicesTaskBlastp, case_sensitive=False), default=ChoicesTaskBlastp.blastp.value, show_default=True)
 @click.option('--db', required=True, help=HELP.db, type=str)
 @click.option('--evalue', help = HELP.evalue, default='0.001', show_default=True)
-@click.option('--out', required = True, help = HELP.out, type=str)
+@click.option('--out', help = HELP.out, type=str, default=None)
 @click.option('--outfmt', help=HELP.outfmt, type=str, default=ChoicesOutfmtDiamond.blast_pairwise.value, show_default=True)
 @click.option('--faster', is_flag=True)
 @click.option('--fast', is_flag=True)
@@ -622,12 +646,13 @@ def diamond_blastx(
         ultra_sensitive: Optional[bool] = False,
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
         matrix: Optional[str] = 'BLOSUM62',
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         max_hsps: Optional[int] = None,
         window: Optional[int] = None,
         gapopen: Optional[int] = None,
         gapextend: Optional[int] = None,
         comp_based_stats: Optional[str] = '1',
+        **kwargs
     ):
     """
     search protein databases using a translated nucleotide query with DIAMOND
@@ -660,4 +685,4 @@ def diamond_blastx(
     """
     params = locals()
     params['tool'] = 'diamond_blastx'
-    api.request(params=params)
+    return __invoke_request(params, kwargs)

@@ -7,7 +7,9 @@ nav:
   - Introduction: index.md
   - Installation: installation.md
   - Configuration: configuration.md
-  - Usage: usage.md
+  - Usage:
+      - 'CLI Usage': 'usage_cli.md'
+      - 'API Usage': 'usage_api.md'
   - Tutorial: tutorial.md
   - CLI Reference: cli.md
   - API Reference: api.md

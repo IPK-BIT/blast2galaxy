@@ -70,18 +70,17 @@ def list_dbs(
 
 
 
-#def blastn(**kwargs):
-#    __invoke(cli.blastn, kwargs)
 
 
 def blastn(
-        profile: Optional[str] = '',
+        profile: Optional[str] = 'default',
         query: str = '',
+        query_str: str = None,
         task: Optional[ChoicesTaskBlastn] = ChoicesTaskBlastn.megablast,
         db: Optional[str | None] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         dust: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
@@ -103,6 +102,7 @@ def blastn(
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
+        query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
         db: the BLAST database to search in
         evalue: Expectation value cutoff
@@ -123,23 +123,24 @@ def blastn(
     """
     params = locals()
     params['calltype'] = 'api'
-    __invoke(cli.blastn, params)
+    return __invoke(cli.blastn, params)
 
 
 
 def tblastn(
-        profile: str = '',
+        profile: str = 'default',
         query: str = '',
+        query_str: str = None,
         task: Optional[ChoicesTaskTblastn] = ChoicesTaskTblastn.tblastn,
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         seg: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         db_gencode: Optional[int] = None,
         matrix: Optional[str] = None,
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         num_descriptions: Optional[int] = None,
         num_alignments: Optional[int] = None,
         threshold: Optional[float] = None,
@@ -161,6 +162,7 @@ def tblastn(
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
+        query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
         db: the BLAST database to search in
         evalue: Expectation value cutoff
@@ -186,25 +188,26 @@ def tblastn(
     """
     params = locals()
     params['calltype'] = 'api'
-    __invoke(cli.tblastn, params)
+    return __invoke(cli.tblastn, params)
 
 
 
 
 def blastp(
-        profile: str = '',
+        profile: str = 'default',
         query: str = '',
+        query_str: str = None,
         task: Optional[ChoicesTaskBlastp] = ChoicesTaskBlastp.blastp,
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         seg: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         matrix: Optional[str] = None,
-        max_target_seqs: Optional[int] = None,
-        num_descriptions: Optional[int] = None,
-        num_alignments: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
+        num_descriptions: Optional[int] = 500,
+        num_alignments: Optional[int] = 250,
         threshold: Optional[float] = None,
         max_hsps: Optional[int] = None,
         word_size: Optional[int] = None,
@@ -225,6 +228,7 @@ def blastp(
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
+        query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
         db: the BLAST database to search in
         evalue: Expectation value cutoff
@@ -250,22 +254,23 @@ def blastp(
     """
     params = locals()
     params['calltype'] = 'api'
-    __invoke(cli.blastp, params)
+    return __invoke(cli.blastp, params)
 
 
 
 def blastx(
-        profile: str = '',
+        profile: str = 'default',
         query: str = '',
+        query_str: str = None,
         task: Optional[ChoicesTaskBlastx] = ChoicesTaskBlastx.blastx,
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
         out: str = '',
-        outfmt: Optional[ChoicesOutfmt] = ChoicesOutfmt.tab_std.value,
+        outfmt: Optional[str] = '6',
         html: Optional[bool] = False,
         seg: Optional[ChoicesYesNo] = ChoicesYesNo.yes.value,
         matrix: Optional[str] = None,
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         num_descriptions: Optional[int] = None,
         num_alignments: Optional[int] = None,
         threshold: Optional[float] = None,
@@ -287,6 +292,7 @@ def blastx(
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
+        query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
         db: the BLAST database to search in
         evalue: Expectation value cutoff
@@ -311,18 +317,19 @@ def blastx(
     """
     params = locals()
     params['calltype'] = 'api'
-    __invoke(cli.blastx, params)
+    return __invoke(cli.blastx, params)
 
 
 
 
 def diamond_blastp(
-        profile: str = '',
+        profile: str = 'default',
         query: str = '',
+        query_str: str = None,
         task: Optional[ChoicesTaskBlastp] = ChoicesTaskBlastp.blastp,
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
-        out: str = '',
+        #out: str = '',
         outfmt: Optional[ChoicesOutfmtDiamond] = ChoicesOutfmtDiamond.blast_pairwise.value,
         faster: Optional[bool] = False,
         fast: Optional[bool] = False,
@@ -333,7 +340,7 @@ def diamond_blastp(
         ultra_sensitive: Optional[bool] = False,
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
         matrix: Optional[str] = 'BLOSUM62',
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         max_hsps: Optional[int] = None,
         window: Optional[int] = None,
         gapopen: Optional[int] = None,
@@ -348,10 +355,10 @@ def diamond_blastp(
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
+        query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
         db: the BLAST database to search in
         evalue: Expectation value cutoff
-        out: Path / filename of file to store the BLAST result
         outfmt: Output format
         faster: faster mode
         fast: fast mode
@@ -371,15 +378,16 @@ def diamond_blastp(
     """
     params = locals()
     params['calltype'] = 'api'
-    __invoke(cli.diamond_blastp, params)
+    return __invoke(cli.diamond_blastp, params)
 
 
 
 
 
 def diamond_blastx(
-        profile: str = '',
+        profile: str = 'default',
         query: str = '',
+        query_str: str = None,
         task: Optional[ChoicesTaskBlastp] = ChoicesTaskBlastp.blastp,
         db: Optional[str] = None,
         evalue: Optional[str] = '0.001',
@@ -394,7 +402,7 @@ def diamond_blastx(
         ultra_sensitive: Optional[bool] = False,
         strand: Optional[ChoicesStrand] = ChoicesStrand.both.value,
         matrix: Optional[str] = 'BLOSUM62',
-        max_target_seqs: Optional[int] = None,
+        max_target_seqs: Optional[int] = 500,
         max_hsps: Optional[int] = None,
         window: Optional[int] = None,
         gapopen: Optional[int] = None,
@@ -409,6 +417,7 @@ def diamond_blastx(
     Arguments:
         profile: the profile from .blast2galaxy.config.toml
         query: file path with your query sequence
+        query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
         db: the BLAST database to search in
         evalue: Expectation value cutoff
@@ -432,7 +441,7 @@ def diamond_blastx(
     """
     params = locals()
     params['calltype'] = 'api'
-    __invoke(cli.diamond_blastx, params)
+    return __invoke(cli.diamond_blastx, params)
 
 
 

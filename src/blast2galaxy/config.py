@@ -7,6 +7,8 @@ except ImportError:
 
 from bioblend.galaxy import GalaxyInstance
 
+from . import errors
+
 
 class ConfigHolder:
     def __init__(self):
@@ -67,10 +69,8 @@ def load_config_toml():
                 config = tomllib.load(f)
                 return config, config_path_home_dir
         except FileNotFoundError as e:
-            err_msg = 'Could not find the config file  `.blast2galaxy.toml`  in the current working directory or in your home directory: ' + str(Path.home())
-            #raise Exception(err_msg) from e
-            print('ERROR: ', err_msg)
-            exit(1)
+            err_msg = f'Could not find the config file  `.blast2galaxy.toml`  in the current working directory or in your home directory: {str(Path.home())}'
+            raise errors.Blast2galaxyConfigFileError(err_msg)
 
 
 def get_profile(server='default', profile=None):
@@ -88,14 +88,13 @@ def get_profile(server='default', profile=None):
             if config_profile['server'] in config['servers'].keys():
                 config_server = config['servers'][ config_profile['server'] ]
             else:
-                exit(f'ERROR: The server `{server}` is not defined in the config TOML!')
+                raise errors.Blast2galaxyConfigFileError(f'ERROR: The server `{server}` is not defined in the config TOML!')
 
             config_merged = config_server | config_profile
 
         except KeyError as e:
             err_msg = f'The profile `{profile}` could not be found in the configuration.'
-            print('ERROR: ', err_msg)
-            exit(1)
+            raise errors.Blast2galaxyConfigFileError(err_msg)
 
     else: # no profile given, just use server argument of get_profile()
 
@@ -104,7 +103,7 @@ def get_profile(server='default', profile=None):
             config_merged = config_server
         
         else:
-            exit(f'ERROR: The server `{server}` is not defined in the config TOML!')
+            raise errors.Blast2galaxyConfigFileError(f'The server `{server}` is not defined in the config TOML file!')
 
     return config_merged
 
