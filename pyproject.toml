@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blast2galaxy"
-version = "0.1.0a1"
+version = "1.0.0"
 keywords = ["bioinformatics", "blast", "sequence alignment"]
 description = "A Python package providing a CLI and API to perform BLAST+ and DIAMOND queries against public or private Galaxy servers"
 authors = ["Patrick König <koenig@ipk-gatersleben.de>"]
@@ -66,6 +66,6 @@ classifiers = [
 ]
 
 [project.urls]
-Documentation = "https://ipk-bit.github.io/blast2galaxy/"
+Documentation = "https://blast2galaxy.readthedocs.io/"
 Source = "https://github.com/IPK-BIT/blast2galaxy/"
 Homepage = "https://github.com/IPK-BIT/blast2galaxy/"
