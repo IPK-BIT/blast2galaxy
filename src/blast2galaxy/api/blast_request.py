@@ -239,26 +239,35 @@ def request(params):
         tool_inputs = _get_blast_tool_inputs(params, tool_inputs)
 
 
+
     if DEBUG:
         tool_inputs_dict = tool_inputs.to_dict()
         print(json.dumps(tool_inputs_dict, indent=4))
 
 
-    run_tool_result = gi.tools.run_tool(
-        history_id = history_id,
-        tool_id = str(profile['tool']),
-        tool_inputs = tool_inputs
-    )
+    try:
+        run_tool_result = gi.tools.run_tool(
+            history_id = history_id,
+            tool_id = str(profile['tool']),
+            tool_inputs = tool_inputs
+        )
+    except Exception as e:
+        raise e
 
     dataset_id_result = run_tool_result['outputs'][0]['id']
     blast_result = gi.datasets.download_dataset(dataset_id_result)
 
 
     blast_result_output = ''
+    WRITE_AS_BYTES = False
     if JSON_OUTPUT:
         blast_result_output = json.dumps(parse_tabular_to_list_of_dict(blast_result), indent = 4)
     else:
-        blast_result_output = blast_result.decode('utf-8')
+        try:
+            blast_result_output = blast_result.decode('utf-8')
+        except UnicodeDecodeError:
+            WRITE_AS_BYTES = True
+            blast_result_output = blast_result
 
 
     # clean up history
@@ -274,7 +283,12 @@ def request(params):
     
     else:
         try:
-            with open(str(params['out']), 'w+') as f_out:
+            file_open_mode = 'w'
+
+            if WRITE_AS_BYTES:
+                file_open_mode = 'wb'
+
+            with open(str(params['out']), file_open_mode) as f_out:
                 f_out.write(blast_result_output)
 
         except Exception as e:

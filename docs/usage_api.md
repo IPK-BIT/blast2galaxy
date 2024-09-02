@@ -39,7 +39,7 @@ blast2galaxy.diamond_blastp(
 ```
 -->
 
-Instead of a filename it is also possible to provide the query as a Python string. This is helpful when an integration with other tools/databases where writing intermediate files for sequences is not helpful.
+Instead of a filename it is also possible to provide the query as a Python string. This is helpful in the situation of an integration with other tools / databases where writing intermediate files for query sequences is not desired.
 
 ```python
 
@@ -66,7 +66,7 @@ result = blast2galaxy.blastp(
 
 ### Exceptions
 
-blast2galaxy throws the following exception when used in API mode:
+blast2galaxy throws the following exceptions when used in API mode:
 
 <small>
 ::: blast2galaxy.errors

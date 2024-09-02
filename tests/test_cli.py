@@ -70,11 +70,13 @@ def test_blastp_cli():
 
 def test_diamond_blastp_cli():
     runner = CliRunner()
+    
     params = [
         '--profile', 'diamond_blastp',
         '--query', 'test_data/human_h4c1_prot.fasta',
         '--db', 'uniprot_swissprot_2023_03',
-        '--outfmt', '6'
+        '--outfmt', '6',
+        '--fast'
     ]
     result = runner.invoke(cli.diamond_blastp, params, terminal_width=1000)
 

@@ -26,7 +26,15 @@ def set_config(config):
     print('Set conf to: ', conf.config)
 
 
-def add_server(server, server_url, api_key):
+def add_server(server: str, server_url: str, api_key: str):
+    """
+    add a server to the configuration settings
+
+    Arguments:
+        server: the Server ID (must be unique) that is referenced in profiles
+        server_url: URL of the Galaxy server (e.g. `https://usegalaxy.eu`)
+        api_key: Galaxy API key 
+    """
     if 'servers' not in conf.config:
         conf.config['servers'] = {}
 
@@ -35,7 +43,16 @@ def add_server(server, server_url, api_key):
         'api_key': api_key
     }
 
-def add_profile(profile, server, tool):
+
+def add_profile(profile: str, server: str, tool: str):
+    """
+    add a profile to the configuration settings
+
+    Arguments:
+        profile: Profile ID (must be unique)
+        server: Server ID (one of the server IDs you have defined with `add_server()` )
+        tool: Tool-ID (e.g. `toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/2.0.15+galaxy0`)
+    """
     if 'profiles' not in conf.config:
         conf.config['profiles'] = {}
 
@@ -44,11 +61,27 @@ def add_profile(profile, server, tool):
         'tool': tool
     }
 
-def add_default_server(server_url, api_key):
+
+def add_default_server(server_url: str, api_key: str):
+    """
+    add a server to the configuration settings
+
+    Arguments:
+        server_url: URL of the Galaxy server (e.g. `https://usegalaxy.eu`)
+        api_key: Galaxy API key 
+    """
     add_server('default', server_url, api_key)
 
-def add_default_profile(server_id, tool):
-    add_profile('default', server_id, tool)
+
+def add_default_profile(server: str, tool: str):
+    """
+    add a default profile to the configuration settings
+
+    Arguments:
+        server: Server ID
+        tool: Tool-ID (e.g. `toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/2.0.15+galaxy0`)
+    """
+    add_profile('default', server, tool)
 
 
 def load_config_toml():
