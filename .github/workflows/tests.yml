@@ -53,8 +53,9 @@ jobs:
         API_KEY_GALAXY_WEB_IPK: ${{secrets.API_KEY_GALAXY_WEB_IPK}}
         API_KEY_USEGALAXYEU: ${{secrets.API_KEY_USEGALAXYEU}}
       run: |
-        echo "api_key = \"$API_KEY_GALAXY_WEB_IPK\"" >> ~/.blast2galaxy.toml
-        cat ~/.blast2galaxy.toml
+        cp test_data/.blast2galaxy.toml ~/.blast2galaxy.toml
+        sed -i "s/API_KEY_USEGALAXYEU/$API_KEY_USEGALAXYEU/g" ~/.blast2galaxy.toml
+        sed -i "s/API_KEY_GALAXY_WEB_IPK/$API_KEY_GALAXY_WEB_IPK/g" ~/.blast2galaxy.toml
 
     - name: Run tests
       run: poetry run pytest -s tests/
