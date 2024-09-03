@@ -49,9 +49,6 @@ jobs:
         pip list
         conda list
 
-    #- name: Run nox
-    #  run: poetry run nox
-
     - name: Create .blast2galaxy.toml
       env:
         API_KEY_GALAXY_WEB_IPK: ${{secrets.API_KEY_GALAXY_WEB_IPK}}
@@ -61,5 +58,8 @@ jobs:
         sed -i "s/API_KEY_USEGALAXYEU/$API_KEY_USEGALAXYEU/g" ~/.blast2galaxy.toml
         sed -i "s/API_KEY_GALAXY_WEB_IPK/$API_KEY_GALAXY_WEB_IPK/g" ~/.blast2galaxy.toml
 
-    - name: Run tests
-      run: poetry run pytest -s tests/
+    #- name: Run tests
+    #  run: poetry run pytest -s tests/
+
+    - name: Run nox
+      run: nox
