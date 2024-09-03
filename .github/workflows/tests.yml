@@ -17,15 +17,15 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: 3.12
-        miniforge-version: latest
+        miniforge-version: "latest"
         channels: bioconda,conda-forge
         channel-priority: true
+        activate-environment: test
 
     - run: |
         conda info
         conda env list
         conda config --show-sources
-        conda activate test
 
     - name: Setup Poetry
       uses: abatilo/actions-poetry@v2
