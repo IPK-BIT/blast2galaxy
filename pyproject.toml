@@ -27,6 +27,7 @@ mkdocs-material = "^9.5.31"
 pytest = "^8.3.2"
 nox = "^2024.4.15"
 nox-poetry = "^1.0.3"
+ruff = "^0.6.3"
 
 [tool.poetry.scripts]
 blast2galaxy = "blast2galaxy.cli:cli"

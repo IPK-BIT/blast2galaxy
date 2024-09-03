@@ -96,12 +96,12 @@ def load_config_toml():
         with open(config_path_cwd, 'rb') as f:
             config = tomllib.load(f)
             return config, config_path_cwd
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         try:
             with open(config_path_home_dir, 'rb') as f:
                 config = tomllib.load(f)
                 return config, config_path_home_dir
-        except FileNotFoundError as e:
+        except FileNotFoundError:
             err_msg = f'Could not find the config file  `.blast2galaxy.toml`  in the current working directory or in your home directory: {str(Path.home())}'
             raise errors.Blast2galaxyConfigFileError(err_msg)
 
@@ -125,7 +125,7 @@ def get_profile(server='default', profile=None):
 
             config_merged = config_server | config_profile
 
-        except KeyError as e:
+        except KeyError:
             err_msg = f'The profile `{profile}` could not be found in the configuration.'
             raise errors.Blast2galaxyConfigFileError(err_msg)
 
@@ -159,12 +159,11 @@ def get_galaxy_instance(server = 'default', profile=None):
                 password = str(config['password'])
             )
 
-    except:
-        print('ERROR: Could not connect to Galaxy server: ', config['server_url'])
-        exit()
+    except Exception as e:
+        raise errors.Blast2galaxyError(f'Could not connect to Galaxy server: {config['server_url']} ({e})')
 
     return gi
 
 
 
-__all__ = ['load', 'get_profile', 'get_galaxy_instance']
+__all__ = ['get_profile', 'get_galaxy_instance']

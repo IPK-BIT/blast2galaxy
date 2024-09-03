@@ -2,7 +2,7 @@ from typing import Optional
 
 import click
 
-from .api.choices import ChoicesBlastType, ChoicesTaskBlastn, ChoicesTaskTblastn, ChoicesTaskBlastp, ChoicesTaskBlastx, ChoicesOutfmt, ChoicesOutfmtDiamond, ChoicesYesNo, ChoicesStrand
+from .api.choices import ChoicesBlastType, ChoicesTaskBlastn, ChoicesTaskTblastn, ChoicesTaskBlastp, ChoicesTaskBlastx, ChoicesOutfmtDiamond, ChoicesYesNo, ChoicesStrand
 from . import cli
 
 

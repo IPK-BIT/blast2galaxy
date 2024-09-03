@@ -278,7 +278,7 @@ def request(params):
     if IS_API_CALL:
         return blast_result_output
 
-    elif params['out'] == None or params['out'] == '':
+    elif params['out'] is None or params['out'] == '':
         print(blast_result_output, file = sys.stdout)
     
     else:
