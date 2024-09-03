@@ -207,7 +207,7 @@ def blastn(
 
     """
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in
@@ -300,7 +300,7 @@ def tblastn(
 
     """
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in
@@ -391,7 +391,7 @@ def blastp(
 
     """
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in
@@ -481,7 +481,7 @@ def blastx(
 
     """
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in
@@ -571,7 +571,7 @@ def diamond_blastp(
 
     """
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in
@@ -659,7 +659,7 @@ def diamond_blastx(
 
     """
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml
         query: file path with your query sequence
         task: the blastn task: megablast or something
         db: the BLAST database to search in

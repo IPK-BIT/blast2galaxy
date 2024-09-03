@@ -1,5 +1,5 @@
 After installation of blast2galaxy you can use the `blast2galaxy` CLI to perform BLAST and DIAMOND searches against the Galaxy servers you have configured
-in the `.blast2galaxy.config.toml` file
+in the `.blast2galaxy.toml` file
 
 <!--`blast2galaxy blastn --help`-->
 

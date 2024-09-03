@@ -18,7 +18,7 @@ Furthermore, it is possible to connect via the username and password of the user
 
 
 blast2galaxy uses the [TOML file format](https://toml.io/){:target="_blank"} for configuration of one or multiple Galaxy servers and one or multiple profiles.
-The default filename of the config file is `.blast2galaxy.config.toml` and blast2galaxy looks for it in the current working directory.
+The default filename of the config file is `.blast2galaxy.toml` and blast2galaxy looks for it in the current working directory.
 If it can't find a configuration file in the current working directory it looks for one in the home-directory of the current user.
 If it can't find any configuration file an error message will be displayed.
 
@@ -29,7 +29,7 @@ An individually named configuration file at a storage location of your choice ca
 
 Example: 
 ```
---configfile=/opt/myapps/config/app1.blast2galaxy.config.toml
+--configfile=/opt/myapps/config/app1.blast2galaxy.toml
 ```
 
 
@@ -119,12 +119,12 @@ tool = "toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper
 
     List all available databases of the tool with ID `TOOL_ID` on the default server:
     ```bash
-    blast2galaxy list-tools --tool=TOOL_ID
+    blast2galaxy list-dbs --tool=TOOL_ID
     ```
 
     List all available databases of the tool with ID `TOOL_ID` on the server with ID `SERVER_ID`:
     ```bash
-    blast2galaxy list-tools --server=SERVER_ID --tool=TOOL_ID
+    blast2galaxy list-dbs --server=SERVER_ID --tool=TOOL_ID
     ```
 
 

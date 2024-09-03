@@ -100,7 +100,7 @@ def blastn(
     search nucleotide databases using a nucleotide query
 
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml or runtime configuration
         query: file path with your query sequence
         query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
@@ -160,7 +160,7 @@ def tblastn(
     search translated nucleotide databases using a protein query
 
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml or runtime configuration
         query: file path with your query sequence
         query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
@@ -226,7 +226,7 @@ def blastp(
     search protein databases using a protein query
 
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml or runtime configuration
         query: file path with your query sequence
         query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
@@ -290,7 +290,7 @@ def blastx(
     search protein databases using a translated nucleotide query
 
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml or runtime configuration
         query: file path with your query sequence
         query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
@@ -353,7 +353,7 @@ def diamond_blastp(
     search protein databases using a protein query with DIAMOND
 
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml or runtime configuration
         query: file path with your query sequence
         query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
@@ -415,7 +415,7 @@ def diamond_blastx(
     search protein databases using a translated nucleotide query with DIAMOND
     
     Arguments:
-        profile: the profile from .blast2galaxy.config.toml
+        profile: the profile ID from .blast2galaxy.toml or runtime configuration
         query: file path with your query sequence
         query_str: Python string containing the query sequence, can be used instead of `query` param
         task: the blastn task: megablast or something
