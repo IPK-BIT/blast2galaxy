@@ -160,7 +160,7 @@ def get_galaxy_instance(server = 'default', profile=None):
             )
 
     except Exception as e:
-        raise errors.Blast2galaxyError(f'Could not connect to Galaxy server: {config['server_url']} ({e})')
+        raise errors.Blast2galaxyError(f'Could not connect to Galaxy server: {config["server_url"]} ({e})')
 
     return gi
 
