@@ -292,4 +292,4 @@ def request(params):
                 f_out.write(blast_result_output)
 
         except Exception as e:
-            raise errors.Blast2galaxyError(f'Could not save the result to this file: {str(params['out'])} ({e})')
+            raise errors.Blast2galaxyError(f'Could not save the result to this file: {str(params["out"])} ({e})')
