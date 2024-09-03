@@ -1,5 +1,9 @@
 name: Tests
 on: push
+
+env:
+  COLUMNS: 120
+
 jobs:
   tests:
     name: Run tests
