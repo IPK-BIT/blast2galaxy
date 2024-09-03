@@ -1,0 +1,39 @@
+[servers.default]
+server_url = "https://usegalaxy.eu"
+api_key = "API_KEY_USEGALAXYEU"
+
+[servers.ipkweb]
+server_url = "https://galaxy-web.ipk-gatersleben.de"
+api_key = "API_KEY_GALAXY_WEB_IPK"
+
+[profiles.default]
+server = "default"
+tool = "toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/2.0.15+galaxy0"
+
+[profiles.blastn]
+server = "default"
+tool = "toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/2.14.1+galaxy0"
+db = "nt_2024-08-15"
+
+[profiles.blastn_barley]
+server = "ipkweb"
+tool = "ncbi_blastn_wrapper_barley"
+db = "morex_v3.all.cds"
+
+[profiles.tblastn_barley]
+server = "ipkweb"
+tool = "ncbi_tblastn_wrapper_barley"
+
+[profiles.blastx_barley]
+server = "ipkweb"
+tool = "ncbi_blastx_wrapper_barley"
+db = "morex_v3.all"
+
+[profiles.blastp_barley]
+server = "ipkweb"
+tool = "ncbi_blastp_wrapper_barley"
+db = "morex_v3.all"
+
+[profiles.diamond_blastp]
+server = "default"
+tool = "toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/2.0.15+galaxy0"
