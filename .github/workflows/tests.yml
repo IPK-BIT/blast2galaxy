@@ -3,6 +3,7 @@ on: push
 jobs:
   tests:
     name: Run tests
+    environment: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -23,9 +24,8 @@ jobs:
     - run: |
         conda info
         conda env list
-        conda list
         conda config --show-sources
-        conda config --show
+        conda activate test
 
     - name: Setup Poetry
       uses: abatilo/actions-poetry@v2
@@ -35,12 +35,21 @@ jobs:
     - name: Install project with Poetry
       run: poetry install --compile
 
-    - run: |
+    - name: Run pip list and conda list
+      run: |
         pip list
         conda list
 
     #- name: Run nox
     #  run: poetry run nox
+
+    - name: Create .blast2galaxy.toml
+      env:
+        API_KEY_GALAXY_WEB_IPK: ${{secrets.API_KEY_GALAXY_WEB_IPK}}
+        API_KEY_USEGALAXYEU: ${{secrets.API_KEY_USEGALAXYEU}}
+      run: |
+        echo "api_key = \"$API_KEY_GALAXY_WEB_IPK\"" >> ~/.blast2galaxy.toml
+        cat ~/.blast2galaxy.toml
 
     - name: Run tests
       run: poetry run pytest -s tests/
