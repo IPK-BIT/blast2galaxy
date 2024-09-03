@@ -1,0 +1,46 @@
+name: Tests
+on: push
+jobs:
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    #- name: Set up Python
+    #  uses: actions/setup-python@v5
+    #  with:
+    #    python-version: '3.12'
+
+    - name: Setup miniforge
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: 3.12
+        miniforge-version: latest
+        channels: bioconda,conda-forge
+        channel-priority: true
+
+    - run: |
+        conda info
+        conda env list
+        conda list
+        conda config --show-sources
+        conda config --show
+
+    - name: Setup Poetry
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: 1.8.3
+
+    - name: Install project with Poetry
+      run: poetry install --compile
+
+    - run: |
+        pip list
+        conda list
+
+    #- name: Run nox
+    #  run: poetry run nox
+
+    - name: Run tests
+      run: poetry run pytest -s tests/
