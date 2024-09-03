@@ -5,6 +5,10 @@ jobs:
     name: Run tests
     environment: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+
     steps:
     - uses: actions/checkout@v4
 
@@ -20,9 +24,10 @@ jobs:
         miniforge-version: "latest"
         channels: bioconda,conda-forge
         channel-priority: true
-        activate-environment: test
 
-    - run: |
+    - name: Conda Info
+      shell: bash -el {0}
+      run: |
         conda info
         conda env list
         conda config --show-sources
